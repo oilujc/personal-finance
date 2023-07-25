@@ -1,20 +1,16 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Redirect, Route } from 'react-router-dom';
 import {
   IonApp,
-  IonIcon,
-  IonLabel,
   IonRouterOutlet,
-  IonTabBar,
-  IonTabButton,
-  IonTabs,
-  setupIonicReact
+  IonLoading,
+  useIonLoading,
+  setupIonicReact,
 } from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
-import { ellipse, square, triangle } from 'ionicons/icons';
-import Tab1 from './pages/Tab1';
-import Tab2 from './pages/Tab2';
-import Tab3 from './pages/Tab3';
+
+
+import Login from './pages/login/Login';
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
@@ -34,44 +30,127 @@ import '@ionic/react/css/display.css';
 
 /* Theme variables */
 import './theme/variables.css';
+import './App.css';
+
+
+import { AuthContext } from './context/authContext';
+import { LoadingContext } from './context/loadingContext';
+
+
+import { useAuthInit } from './hooks/authInitHook';
+
+import BottomNavigationBar from './components/BottomNavigationBar';
+import GroupDetail from './pages/group_detail/GroupDetail';
+
+import { GroupContext } from './context/groupContext';
+import GroupEntity from './domain/entities/GroupEntity';
+
+import { useService } from './hooks/serviceHook';
+import PermissionList from './pages/permission/PermissionList';
+import UserPermission from './pages/ user_permission/UserPermission';
+import Signup from './pages/signup/Signup';
+import UserEntity from './domain/entities/UserEntity';
+import PermissionEntity from './domain/entities/PermissionEntity';
+import UserProfile from './pages/user_profile/UserProfile';
 
 setupIonicReact();
 
-const App: React.FC = () => (
-  <IonApp>
-    <IonReactRouter>
-      <IonTabs>
-        <IonRouterOutlet>
-          <Route exact path="/tab1">
-            <Tab1 />
-          </Route>
-          <Route exact path="/tab2">
-            <Tab2 />
-          </Route>
-          <Route path="/tab3">
-            <Tab3 />
-          </Route>
-          <Route exact path="/">
-            <Redirect to="/tab1" />
-          </Route>
-        </IonRouterOutlet>
-        <IonTabBar slot="bottom">
-          <IonTabButton tab="tab1" href="/tab1">
-            <IonIcon aria-hidden="true" icon={triangle} />
-            <IonLabel>Tab 1</IonLabel>
-          </IonTabButton>
-          <IonTabButton tab="tab2" href="/tab2">
-            <IonIcon aria-hidden="true" icon={ellipse} />
-            <IonLabel>Tab 2</IonLabel>
-          </IonTabButton>
-          <IonTabButton tab="tab3" href="/tab3">
-            <IonIcon aria-hidden="true" icon={square} />
-            <IonLabel>Tab 3</IonLabel>
-          </IonTabButton>
-        </IonTabBar>
-      </IonTabs>
-    </IonReactRouter>
-  </IonApp>
-);
+const App: React.FC = () => {
+
+  const { authService } = useService();
+  const { currentUser, loading, userPermissions  } = useAuthInit(authService);
+
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [user, setUser] = useState<UserEntity | null>(null);
+  const [group, setGroup] = useState<GroupEntity | null>(null);
+  const [permissions, setPermissions] = useState<PermissionEntity[]>([]);
+
+  const [dismiss] = useIonLoading();
+
+
+  useEffect(() => {
+    setUser(currentUser);
+  }, [currentUser]);
+
+  useEffect(() => {
+    setIsLoading(loading);
+  }, [loading]);
+
+
+  return (
+    <IonApp>
+      <LoadingContext.Provider value={{ isLoading, setIsLoading }}>
+        <AuthContext.Provider value={{ user, setUser, permissions, setPermissions }}>
+          <GroupContext.Provider value={{ group, setGroup }}>
+            <IonReactRouter>
+              <IonRouterOutlet>
+
+                <Route exact path="/login"
+                  render={() => {
+                    return user ? <Redirect to="/tabs/home" /> : <Login />
+                  }}
+                />
+
+                <Route exact path="/signup"
+                  render={() => {
+                    return user ? <Redirect to="/tabs/home" /> : <Signup />
+                  }}
+                />
+
+                <Route exact path="/group/:id"
+                  render={() => {
+                    return user ? <GroupDetail /> : <Login />
+                  }}
+                />
+
+                <Route exact path="/permission"
+                  render={() => {
+                    return user ? <PermissionList /> : <Login />
+                  }}
+                />
+
+                <Route exact path="/user-permission"
+                  render={() => {
+                    return user ? <UserPermission /> : <Login />
+                  }}
+                />
+
+
+                <Route exact path="/profile"
+                    render={() => {
+                        return user ? <UserProfile /> : <Login />
+                    }}
+                />
+
+                <Route path="/tabs"
+                  render={() => {
+                    return user ? <BottomNavigationBar /> : <Redirect to="/login" />
+                  }}
+                />
+
+                <Route exact path="/">
+                  <Redirect to="/tabs/home" />
+                </Route>
+
+              </IonRouterOutlet>
+
+
+            </IonReactRouter>
+          </GroupContext.Provider>
+        </AuthContext.Provider>
+      </LoadingContext.Provider>
+
+      {
+        isLoading && <IonLoading
+          isOpen={isLoading}
+          onDidDismiss={() => dismiss()}
+          message={'Cargando...'}
+          duration={5000}
+        />
+      }
+
+    </IonApp>
+  )
+};
 
 export default App;

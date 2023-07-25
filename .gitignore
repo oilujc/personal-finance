@@ -30,3 +30,11 @@ yarn-error.log*
 
 # Optional eslint cache
 .eslintcache
+
+# Firebase
+
+firebase.ts
+.firebaserc
+
+firestore.rules
+firestore.indexes.json
