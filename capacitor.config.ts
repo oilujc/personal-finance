@@ -1,8 +1,8 @@
 import { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
-  appId: 'com.personalfinances.app',
-  appName: 'PersonalFinances',
+  appId: 'com.appurao.app',
+  appName: 'AppUrao',
   webDir: 'build',
   server: {
     androidScheme: 'https'
