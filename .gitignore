@@ -38,3 +38,7 @@ firebase.ts
 
 firestore.rules
 firestore.indexes.json
+
+config.ts
+
+/android

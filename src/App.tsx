@@ -139,16 +139,6 @@ const App: React.FC = () => {
           </GroupContext.Provider>
         </AuthContext.Provider>
       </LoadingContext.Provider>
-
-      {
-        isLoading && <IonLoading
-          isOpen={isLoading}
-          onDidDismiss={() => dismiss()}
-          message={'Cargando...'}
-          duration={5000}
-        />
-      }
-
     </IonApp>
   )
 };

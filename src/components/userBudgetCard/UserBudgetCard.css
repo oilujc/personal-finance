@@ -5,6 +5,7 @@ ion-card {
 ion-card-content {
     display: flex;
     align-items: center;
+    justify-content: space-between;
     background: url('/public/assets/background.svg') no-repeat;
 }
 
@@ -25,6 +26,7 @@ ion-card-content div {
 .user-budget-card__transactions__resume {
     padding: 0;
     display: flex;
+    justify-content: space-between;
 }
 
 .user-budget-card__transactions__resume .user-budget-card__transactions__item {

@@ -29,7 +29,8 @@ const RecentTransactions : React.FC<RecentTransactionsProps> = ({ transactions }
             {
                 transactions.map((item, index) => (
                     <IonItem key={index}>
-                        <IonLabel className='ion-text-wrap'>{getName(item)}</IonLabel>
+                        <IonLabel className='ion-text-wrap
+                        '>{getName(item)}</IonLabel>
                         <IonNote slot="end" color="primary">
                             <IonText><h3 style={{ margin: 0 }}>{getAmount(item)} $</h3></IonText>
                         </IonNote>
