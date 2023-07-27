@@ -130,14 +130,10 @@ const Budget: React.FC = () => {
                         <IonText className='ion-text-wrap' >
                           {item.name}
                         </IonText>
-                        {
-                          (getProgress(item.id)) && (
-                            <div className="budget-progress__container">
-                              <span>Este mes</span>
-                              <ProgressBar progress={getProgress(item.id)} />
-                            </div>
-                          )
-                        }
+                        <div className="budget-progress__container">
+                          <span>Este mes</span>
+                          <ProgressBar progress={getProgress(item.id)} />
+                        </div>
                       </IonLabel>
                       <IonNote slot="end" color="primary">
                         <IonText><h3 style={{ margin: 0 }}>{item.amount} $</h3></IonText>
