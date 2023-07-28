@@ -1,4 +1,4 @@
-p {
+.recent-transactions p {
     margin: 0;
     text-decoration: line-through;
     text-align: end;

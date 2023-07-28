@@ -46,7 +46,7 @@ const RecentTransactions : React.FC<RecentTransactionsProps> = ({ transactions }
     }
 
     return (
-        <IonList>
+        <IonList className='recent-transactions' >
             <IonListHeader>
                 <IonLabel>Transacciones recientes</IonLabel>
             </IonListHeader>
