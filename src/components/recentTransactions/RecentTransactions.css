@@ -1,0 +1,7 @@
+.recent-transactions p {
+    margin: 0;
+    text-decoration: line-through;
+    text-align: end;
+    font-size: .8rem;
+    color: var(--ion-color-danger);
+}

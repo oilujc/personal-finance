@@ -9,26 +9,24 @@ interface TransferCreateDTO {
     toAccount: AccountEntity;
     amount: number;
     userId: string;
+    amountReceived?: number;
 }
 
 
 
 export default class TransferService {
     private transferRepository: ITransferRepository;
-    private accountRepository: IAccountRepository;
 
 
     constructor(
         transferRepository: ITransferRepository,
-        accountRepository: IAccountRepository,
     ) {
         this.transferRepository = transferRepository;
-        this.accountRepository = accountRepository;
     }
 
     public async create(transferCreate: TransferCreateDTO): Promise<TransferEntity> {
 
-        const { fromAccount, toAccount, amount, userId } = transferCreate;
+        const { fromAccount, toAccount, amount, userId, amountReceived } = transferCreate;
         
 
         if (amount <= 0) {
@@ -38,21 +36,6 @@ export default class TransferService {
         if (fromAccount.currentAmount < amount) {
             throw new Error("transfer/insufficient-funds");
         }
-        
-        const fromCurrentAmount: number = fromAccount.currentAmount - amount;
-        const fromTotalTransfersOut: number = fromAccount.totalTransfersOut + amount;
-
-        fromAccount.currentAmount = fromCurrentAmount;
-        fromAccount.totalTransfersOut = fromTotalTransfersOut;
-
-        const toCurrentAmount: number = toAccount.currentAmount + amount;
-        const toTotalTransfersIn: number = toAccount.totalTransfersIn + amount;
-
-        toAccount.currentAmount = toCurrentAmount;
-        toAccount.totalTransfersIn = toTotalTransfersIn;
-
-        await this.accountRepository.update(fromAccount);
-        await this.accountRepository.update(toAccount);
 
         const transfer = new TransferEntity(
             '',
@@ -60,6 +43,8 @@ export default class TransferService {
             toAccount.id,
             userId,
             amount,
+            '',
+            amountReceived
         );
 
         return this.transferRepository.create(transfer);

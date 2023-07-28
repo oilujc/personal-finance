@@ -14,6 +14,7 @@ export default class ApiTransferRepository implements ITransferRepository {
                 'fromAccountId': transfer.fromAccountId,
                 'toAccountId': transfer.toAccountId,
                 'amount': transfer.amount,
+                'amountReceived': transfer.amountReceived,
             }, {
                 headers: {
                     Authorization: `${localStorage.getItem("token_type")} ${localStorage.getItem("token")}`
@@ -29,6 +30,7 @@ export default class ApiTransferRepository implements ITransferRepository {
                     data.toAccountId ? data.toAccountId : "",
                     data.amount ? data.amount : 0,
                     data.name ? data.name : "",
+                    data.amountReceived ? data.amountReceived : null,
                     data.createdAt ? data.createdAt : new Date(),
                     data.updatedAt ? data.updatedAt : new Date(),
                 );
@@ -74,6 +76,8 @@ export default class ApiTransferRepository implements ITransferRepository {
                         item.toAccountId ? item.toAccountId : "",
                         item.amount ? item.amount : 0,
                         item.name ? item.name : "",
+                        item.amountReceived ? item.amountReceived : null,
+                        item.commission ? item.commission : null,
                         item.createdAt ? item.createdAt : new Date(),
                         item.updatedAt ? item.updatedAt : new Date(),
                     );

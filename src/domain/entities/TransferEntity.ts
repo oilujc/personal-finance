@@ -8,6 +8,9 @@ export default class TransferEntity {
     amount: number;
     name?: string;
 
+    amountReceived?: number;
+    commission?: number;
+
 
     createdAt?: Date;
     updatedAt?: Date;
@@ -19,6 +22,8 @@ export default class TransferEntity {
         userId: string,
         amount: number,
         name?: string,
+        amountReceived?: number,
+        commission?: number,
         createdAt?: Date,
         updatedAt?: Date) {
         this.id = id;
@@ -27,6 +32,8 @@ export default class TransferEntity {
         this.userId = userId;
         this.amount = amount;
         this.name = name;
+        this.amountReceived = amountReceived;
+        this.commission = commission;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
     }

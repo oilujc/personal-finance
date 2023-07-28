@@ -59,17 +59,6 @@ const UserProfile: React.FC = () => {
 
 
         <IonList>
-
-          <IonItem button routerLink='/permission'>
-            Permisos
-          </IonItem>
-
-          <IonItem button routerLink='/user-permission'>
-            Permisos de usuario
-          </IonItem>
-
-
-
           <IonItem button onClick={onLogout} color='danger'>
             <IonIcon icon={logOutOutline} slot='start'></IonIcon>
             Cerrar sesión
