@@ -81,8 +81,7 @@ export const useService = () => {
     );
     
     const transferService = new TransferService(
-        repositories.transfer,
-        repositories.account,
+        repositories.transfer,        
     );
 
     const budgetService = new BudgetService(

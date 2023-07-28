@@ -5,7 +5,7 @@ import { useService } from '../../hooks/serviceHook';
 import { AuthContext } from '../../context/authContext';
 import AccountForm from '../../components/AccountForm';
 import AccountEntity from '../../domain/entities/AccountEntity';
-import TransferForm from '../../components/TransferForm';
+import TransferForm from '../../components/transferForm/TransferForm';
 
 
 const Accounts: React.FC = () => {
