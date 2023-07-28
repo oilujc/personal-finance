@@ -103,19 +103,6 @@ const App: React.FC = () => {
                   }}
                 />
 
-                <Route exact path="/permission"
-                  render={() => {
-                    return user ? <PermissionList /> : <Login />
-                  }}
-                />
-
-                <Route exact path="/user-permission"
-                  render={() => {
-                    return user ? <UserPermission /> : <Login />
-                  }}
-                />
-
-
                 <Route exact path="/profile"
                     render={() => {
                         return user ? <UserProfile /> : <Login />
