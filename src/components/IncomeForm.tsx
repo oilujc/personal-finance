@@ -78,11 +78,12 @@ const IncomeForm: React.FC<IncomeFormProps> = ({ callback }) => {
         // d-m-Y
         let dateFormatted = undefined;
 
+               
         if (data.date) {
-            const date = new Date(data.date);
-
-            dateFormatted = date.getDay() + '-' + date.getMonth() + '-' + date.getFullYear();
+            const [year, month, day] = data.date.toString().split('-');
+            dateFormatted = `${day}-${month}-${year}`;
         }
+
 
         const income = new IncomeEntity(
             '',

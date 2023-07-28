@@ -25,7 +25,6 @@ const ExpenseForm: React.FC<ExpenseFormProps> = ({ callback }) => {
 
     const { expenseService, accountService, budgetService } = useService();
     const { user } = useContext(AuthContext);
-    const { setIsLoading } = useContext(LoadingContext);
 
     const [accounts, setAccounts] = useState<AccountEntity[]>([]);
     const [budgets, setBudgets] = useState<BudgetEntity[]>([]);
@@ -64,8 +63,6 @@ const ExpenseForm: React.FC<ExpenseFormProps> = ({ callback }) => {
                 });
             }
 
-            setIsLoading(false);
-
             present({
                 message: 'Gasto creado correctamente',
                 duration: 3000,
@@ -73,10 +70,6 @@ const ExpenseForm: React.FC<ExpenseFormProps> = ({ callback }) => {
             })
 
         } catch (error) {
-            console.log(error);
-
-            setIsLoading(false);
-
             present({
                 message: 'Error al crear el Gasto',
                 duration: 1000,
@@ -90,6 +83,7 @@ const ExpenseForm: React.FC<ExpenseFormProps> = ({ callback }) => {
 
         const amount: number = parseFloat(data.amount);
         const account: AccountEntity = data.account;
+        let dateFormatted: string | undefined = undefined;
 
         if (account.currentAmount < amount) {
             present({
@@ -100,6 +94,15 @@ const ExpenseForm: React.FC<ExpenseFormProps> = ({ callback }) => {
             return;
         }
 
+        
+        if (data.date) {
+            console.log(data.date);
+
+            const [year, month, day] = data.date.toString().split('-');
+            dateFormatted = `${day}-${month}-${year}`;
+        }
+
+
         const expense = new ExpenseEntity(
             '',
             user ? user.id : '',
@@ -108,10 +111,9 @@ const ExpenseForm: React.FC<ExpenseFormProps> = ({ callback }) => {
             data.name,
             data.note,
             amount,
-            data.date ? data.date : null
+            dateFormatted
         )
 
-        setIsLoading(true);
         newExpense(expense);
 
     }
