@@ -15,7 +15,7 @@ export default class ApiTransactionRepository implements ITransactionRepository 
 
             api.get(`/${this.collectionName}`, {
                 params: {
-                    limit: qs.limit ? qs.limit : 10
+                    limit: qs.limit ? qs.limit : 5
                 },
                 headers: {
                     Authorization: `${localStorage.getItem("token_type")} ${localStorage.getItem("token")}`
