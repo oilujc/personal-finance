@@ -1,18 +1,19 @@
 import { IonButton, IonCheckbox, IonCol, IonInput, IonItem, IonLabel, IonRow, IonSelect, IonSelectOption, IonText, useIonToast } from "@ionic/react";
 import React, { useContext, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
-import AccountEntity from "../domain/entities/AccountEntity";
-import { AuthContext } from "../context/authContext";
-import { LoadingContext } from "../context/loadingContext";
-import { useService } from "../hooks/serviceHook";
-import TransferEntity from "../domain/entities/TransferEntity";
-import errorCode from "../utils/ErrorCode";
+import AccountEntity from "../../domain/entities/AccountEntity";
+import { AuthContext } from "../../context/authContext";
+import { LoadingContext } from "../../context/loadingContext";
+import { useService } from "../../hooks/serviceHook";
+
+import './TransferForm.css';
 
 interface TransferCreateData {
     fromAccount: AccountEntity;
     toAccount: AccountEntity;
     amount: number;
     userId: string;
+    amountReceived: number;
 }
 
 interface TransferFormProps {
@@ -69,11 +70,13 @@ const TransferForm: React.FC<TransferFormProps> = ({ accounts, callback }) => {
     const onSubmit = async (data: any) => {
 
         const amount: number = parseFloat(data.amount);
+        const amountReceived: number = parseFloat(data.amountReceived);
 
         const transferData = {
             fromAccount: data.fromAccount,
             toAccount: data.toAccount,
             amount: amount,
+            amountReceived: amountReceived,
             userId: user ? user.id : ''
         }
 
@@ -100,7 +103,6 @@ const TransferForm: React.FC<TransferFormProps> = ({ accounts, callback }) => {
 
       
     }
-
 
     return (
         <>
@@ -146,7 +148,7 @@ const TransferForm: React.FC<TransferFormProps> = ({ accounts, callback }) => {
                     <IonCol size='12'>
                         <IonItem>
                             <IonLabel>
-                                Monto
+                                Monto enviado
                             </IonLabel>
                             <Controller
                                 name="amount"
@@ -154,6 +156,19 @@ const TransferForm: React.FC<TransferFormProps> = ({ accounts, callback }) => {
                                 defaultValue={0}
                                 rules={{ required: true, min: 1 }}
                                 render={({ field: { onChange, value, onBlur } }) => <IonInput onIonChange={onChange} value={value} onIonBlur={onBlur} type="number" />}
+                            />
+                        </IonItem>
+                    </IonCol>
+                    <IonCol size='12'>
+                        <IonItem>
+                            <IonLabel>
+                                Monto recibido
+                            </IonLabel>
+                            <Controller
+                                name="amountReceived"
+                                control={control}
+                                render={({ field: { onChange, value, onBlur } }) => <IonInput 
+                                    onIonChange={onChange} value={value} onIonBlur={onBlur} pattern="^[0-9]+([.][0-9]{1,2})?$" inputMode="decimal" type="text" />}
                             />
                         </IonItem>
                     </IonCol>
