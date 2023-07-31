@@ -5,3 +5,22 @@
     font-size: .8rem;
     color: var(--ion-color-danger);
 }
+
+.recent-transactions ion-label {
+    display: flex !important;
+    flex-direction: column;
+}
+
+.recent-transactions ion-label span {
+    font-size: 9px;
+}
+.recent-transactions ion-label span.success {
+    color: var(--ion-color-success);
+}
+.recent-transactions ion-label span.primary {
+    color: var(--ion-color-primary);
+}
+.recent-transactions ion-label span.danger {
+    color: var(--ion-color-danger);
+}
+
