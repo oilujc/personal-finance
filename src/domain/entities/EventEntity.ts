@@ -6,11 +6,12 @@ export default class EventEntity {
 
     name: string;
     estimatedAmount: number;
-    date: string;
-
-    eventType: string; // income, expense, reminder
-    sendReminder: boolean;
     
+    eventType: string; // income, expense, reminder
+    
+    // Recurring
+    monthlyRecurring?: boolean;
+
     status?: string; // active, completed
     isRemiderSended?: boolean;
     isCompleted?: boolean;
@@ -23,9 +24,7 @@ export default class EventEntity {
         userId: string,
         name: string,
         estimatedAmount: number,
-        date: string,
         eventType: string,
-        sendReminder: boolean,
         createdAt?: Date,
         updatedAt?: Date
     ) {
@@ -33,9 +32,10 @@ export default class EventEntity {
         this.userId = userId;
         this.name = name;
         this.estimatedAmount = estimatedAmount;
-        this.date = date;
         this.eventType = eventType;
-        this.sendReminder = sendReminder;        
+
+        this.monthlyRecurring = false;    
+        
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
     }

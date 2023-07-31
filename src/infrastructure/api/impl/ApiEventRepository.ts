@@ -17,9 +17,7 @@ export default class ApiEventRepository implements IEventRepository {
             api.post(`/${this.collectionName}`, {
                 "name": event.name,
                 'estimatedAmount': event.estimatedAmount,
-                'date': event.date,
                 'eventType': event.eventType,
-                'sendReminder': event.sendReminder,
             }, {
                 headers: {
                     Authorization: `${localStorage.getItem("token_type")} ${localStorage.getItem("token")}`
@@ -33,9 +31,7 @@ export default class ApiEventRepository implements IEventRepository {
                     data.userId ? data.userId : "",
                     data.name ? data.name : "",
                     data.estimatedAmount ? data.estimatedAmount : 0,
-                    data.date ? data.date : "",
                     data.eventType ? data.eventType : "",
-                    data.sendReminder ? data.sendReminder : false,
                     data.createdAt ? data.createdAt : new Date(),
                     data.updatedAt ? data.updatedAt : new Date(),
                 );
@@ -50,9 +46,7 @@ export default class ApiEventRepository implements IEventRepository {
             api.put(`/${this.collectionName}/${event.id}`, {
                 "name": event.name,
                 'estimatedAmount': event.estimatedAmount,
-                'date': event.date,
                 'eventType': event.eventType,
-                'sendReminder': event.sendReminder,
             },
             {
                 headers: {
@@ -67,9 +61,7 @@ export default class ApiEventRepository implements IEventRepository {
                     data.userId ? data.userId : "",
                     data.name ? data.name : "",
                     data.estimatedAmount ? data.estimatedAmount : 0,
-                    data.date ? data.date : "",
                     data.eventType ? data.eventType : "",
-                    data.sendReminder ? data.sendReminder : false,
                     data.createdAt ? data.createdAt : new Date(),
                     data.updatedAt ? data.updatedAt : new Date(),
                 );
@@ -110,9 +102,7 @@ export default class ApiEventRepository implements IEventRepository {
                     data.userId ? data.userId : "",
                     data.name ? data.name : "",
                     data.estimatedAmount ? data.estimatedAmount : 0,
-                    data.date ? data.date : "",
                     data.eventType ? data.eventType : "",
-                    data.sendReminder ? data.sendReminder : false,
                     data.createdAt ? data.createdAt : new Date(),
                     data.updatedAt ? data.updatedAt : new Date(),
                 );
@@ -147,9 +137,7 @@ export default class ApiEventRepository implements IEventRepository {
                         item.userId ? item.userId : "",
                         item.name ? item.name : "",
                         item.estimatedAmount ? item.estimatedAmount : 0,
-                        item.date ? item.date : "",
                         item.eventType ? item.eventType : "",
-                        item.sendReminder ? item.sendReminder : false,
                         item.createdAt ? item.createdAt : new Date(),
                         item.updatedAt ? item.updatedAt : new Date(),
                     );

@@ -28,8 +28,41 @@ const EventForm: React.FC<EventFormProps> = ({ defaultValue, callback }) => {
     const eventTypes: any[] = [
         { name: 'Ingreso', value: 'income' },
         { name: 'Gasto', value: 'expense' },
+        { name: 'Transferencia', value: 'transfer'},
         { name: 'Recordatorio', value: 'reminder' }
     ];
+
+    // Get active months
+    const getMonths = () => {
+        const months: any[] = [
+            { name: 'Todos los meses', value: 'all' }
+        ];
+        const monthNames: string[] = [
+            'Enero',
+            'Febrero',
+            'Marzo',
+            'Abril',
+            'Mayo',
+            'Junio',
+            'Agosto',
+            'Septiembre',
+            'Octubre',
+            'Noviembre',
+            'Diciembre'
+        ];
+
+        // get current month
+        const currentMonth = new Date().getMonth();
+
+        for (let i = currentMonth; i < 11; i++) {
+            months.push({
+                name: monthNames[i],
+                value: monthNames[i].toLowerCase()
+            });
+        }
+        
+        return months;
+    }
 
     const newEvent = async (value: EventEntity) => {
         try {
@@ -92,8 +125,7 @@ const EventForm: React.FC<EventFormProps> = ({ defaultValue, callback }) => {
     const onSubmit = async (data: any) => {
 
         const estimatedAmount: number = parseFloat(data.estimatedAmount);
-        const [year, month, day] = data.date.toString().split('-');
-        const dateFormatted = `${day}-${month}-${year}`;
+
 
         // userId: string,
         // name: string,
@@ -108,7 +140,7 @@ const EventForm: React.FC<EventFormProps> = ({ defaultValue, callback }) => {
             user?.id || '',
             data.name,
             estimatedAmount,
-            dateFormatted,
+            data.eventRecurrence,
             data.eventType,
             data.sendReminder
         );
@@ -118,9 +150,7 @@ const EventForm: React.FC<EventFormProps> = ({ defaultValue, callback }) => {
 
             event.name = data.name;
             event.estimatedAmount = estimatedAmount;
-            event.date = dateFormatted;
             event.eventType = data.eventType;
-            event.sendReminder = data.sendReminder;
             
         }
 
@@ -140,7 +170,7 @@ const EventForm: React.FC<EventFormProps> = ({ defaultValue, callback }) => {
                 <IonRow>
                     <IonCol size='12' className="ion-padding-vertical ion-text-center">
                         <IonText>
-                            {defaultValue ? 'Editar cuenta' : 'Nueva cuenta'}
+                            {defaultValue ? 'Editar cuenta' : 'Nuevo evento'}
                         </IonText>
                     </IonCol>
                     <IonCol size='12'>
@@ -173,15 +203,17 @@ const EventForm: React.FC<EventFormProps> = ({ defaultValue, callback }) => {
                     <IonCol size='12'>
                         <IonItem>
                             <IonLabel>
-                                Fecha
+                                Mes
                             </IonLabel>
-                            <Controller
-                                name="date"
-                                control={control}
-                                defaultValue={defaultValue ? defaultValue.date : ''}
-                                rules={{ required: true }}
-                                render={({ field: { onChange, value, onBlur } }) => <IonInput onIonChange={onChange} value={value} onIonBlur={onBlur} type="date" />}
-                            />
+                            <IonSelect label="Mes" placeholder="Selecciona un mes"
+                                {...register("eventRecurrence", { required: true })}>
+
+                                {
+                                    getMonths().map((eventType: any, index: number) => (
+                                        <IonSelectOption key={index} value={eventType.value}>{eventType.name}</IonSelectOption>
+                                    ))
+                                }
+                            </IonSelect>
                         </IonItem>
                     </IonCol>
 
@@ -201,26 +233,6 @@ const EventForm: React.FC<EventFormProps> = ({ defaultValue, callback }) => {
                             </IonSelect>
                         </IonItem>
                     </IonCol>
-
-                    <IonCol size='12'>
-
-                        <IonItem>
-                            <IonLabel>
-                                ¿Enviar recordatorio?
-                            </IonLabel>
-                            <Controller
-                                name="sendReminder"
-                                control={control}
-                                defaultValue={defaultValue ? defaultValue.sendReminder : true}
-                                render={({ field: { onChange, value } }) => <IonCheckbox 
-                                    onIonChange={({detail: { checked }}) => onChange(checked ? true : false)}
-                                    checked={value}
-                                    labelPlacement="end" />}
-                                />
-                        </IonItem>
-                    </IonCol>
-
-
 
                     <IonCol size='12'>
                         <IonButton type="submit" expand='block' >Guardar</IonButton>

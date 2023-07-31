@@ -161,8 +161,8 @@ const Budget: React.FC = () => {
         <IonModal ref={modal}
           onDidDismiss={() => dismissModal()}
           isOpen={onOpenModal}
-          initialBreakpoint={0.50}
-          breakpoints={[0, 0.50]}
+          initialBreakpoint={0.70}
+          breakpoints={[0, 0.70]}
           handleBehavior="cycle">
 
           <BudgetForm defaultValue={budget} callback={onSave} />

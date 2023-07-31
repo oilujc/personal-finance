@@ -12,11 +12,13 @@ import FirebaseGroupRepository from "../infrastructure/firebase/impl/FirebaseGro
 import FirebasePermissionRepository from "../infrastructure/firebase/impl/FirebasePermissionRepository";
 import FirebaseUserPermissionRepository from "../infrastructure/firebase/impl/FirebaseUserPermissionRepository";
 import FirebaseUserRepository from "../infrastructure/firebase/impl/FirebaseUserRepository";
+import LocalEventRepository from "../infrastructure/local/LocalEventRepository";
 import AccountService from "../usecases/AccountService";
 import AuthService from "../usecases/AuthService";
 import BudgetProgressService from "../usecases/BudgetProgressService";
 import BudgetService from "../usecases/BudgetService";
 import CategoryService from "../usecases/CategoryService";
+import EventService from "../usecases/EventService";
 import ExpenseService from "../usecases/ExpenseService";
 import GroupService from "../usecases/GroupService";
 import IncomeService from "../usecases/IncomeService";
@@ -45,6 +47,7 @@ export const useService = () => {
         budgetProgress: new ApiBudgetProgressRepository(),
         userTrack: new ApiUserTrackRepository(),
         transaction: new ApiTransactionRepository(),
+        events: new LocalEventRepository()
     }
 
 
@@ -104,6 +107,10 @@ export const useService = () => {
         repositories.transaction,
     )
 
+    const eventService = new EventService(
+        repositories.events,
+    )
+
     return {
         groupService,
         authService,
@@ -119,5 +126,6 @@ export const useService = () => {
         expenseService,
         userBudgetService,
         transactionService,
+        eventService
     }
 }

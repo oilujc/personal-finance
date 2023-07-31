@@ -34,20 +34,20 @@ export default class LocalEventRepository implements IEventRepository {
     find(qs: any): Promise<EventEntity[]> {
         return new Promise((resolve, reject) => {
 
-            const randomDates = (start: Date, end: Date, n: number) : string => {
+            // const randomDates = (start: Date, end: Date, n: number) : string => {
 
-                // format d-m-Y
+            //     // format d-m-Y
 
-                const date = new Date(
-                    start.getTime() + Math.random() * (end.getTime() - start.getTime())
-                );
+            //     const date = new Date(
+            //         start.getTime() + Math.random() * (end.getTime() - start.getTime())
+            //     );
 
-                const day = date.getDate();
-                const month = date.getMonth() + 1;
-                const year = date.getFullYear();
+            //     const day = date.getDate();
+            //     const month = date.getMonth() + 1;
+            //     const year = date.getFullYear();
 
-                return `${day}-${month}-${year}`;
-            }
+            //     return `${day}-${month}-${year}`;
+            // }
 
             const randomEventTypes = () : string => {
                 const eventTypes = ['income', 'expense', 'reminder'];
@@ -69,22 +69,15 @@ export default class LocalEventRepository implements IEventRepository {
                     "1",
                     `Event ${i}`,
                     100,
-                    randomDates(new Date('2023-07-01'), new Date('2023-07-30'), 1),
                     randomEventTypes(),
-                    randomReminder(),
                     new Date(),
                     new Date(),
                 );
 
                 entities.push(entity);
             }
-                
 
-
-
-
-
-            resolve([]);
+            resolve(entities);
         });
     }
 

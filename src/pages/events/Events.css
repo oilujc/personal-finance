@@ -1,0 +1,5 @@
+.event-list ion-label {
+    display: flex !important;
+    justify-content: space-between !important;
+    padding-right: calc(var(--ion-safe-area-left, 0) + 16px);
+}
