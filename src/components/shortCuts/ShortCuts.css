@@ -13,7 +13,7 @@
 }
 
 .shortcuts .shortcuts__item .shortcuts__item__name {
-    font-size: 14px;
+    font-size: 16px;
 }
 
 .shortcuts .shortcuts__item .shortcuts__item__icon {
@@ -21,7 +21,7 @@
     align-items: center;
     justify-content: center;
     border-radius: 100%;
-    padding: .5rem;
+    padding: .7rem;
     margin-bottom: .3rem;
 }
 
