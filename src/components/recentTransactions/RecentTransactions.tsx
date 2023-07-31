@@ -20,6 +20,44 @@ const RecentTransactions : React.FC<RecentTransactionsProps> = ({ transactions }
         return transaction.item?.name;
     }
 
+    const getSubtitle = (transaction: TransactionEntity) => {
+
+        if (transaction.type === 'transfer') {
+            return `Transferencia`;
+        }
+
+        if (transaction.type === 'expense') {
+            return `Gasto`;
+        }
+
+        return `Ingreso`;
+    }
+
+    const getColor = (transaction: TransactionEntity) => {
+        if (transaction.type === 'transfer') {
+            return `primary`;
+        }
+
+        if (transaction.type === 'expense') {
+            return `danger`;
+        }
+
+        return `success`;
+    }
+
+    const getRoute = (transaction: TransactionEntity) => {
+        if (transaction.type === 'transfer') {
+            return `/tabs/accounts`;
+        }
+
+        if (transaction.type === 'expense') {
+            return `/tabs/expenses`;
+        }
+
+        return `/tabs/incomes`;
+    }
+
+
     const getAmount = (transaction: TransactionEntity) => {
 
         if (transaction.item === null) {
@@ -45,6 +83,9 @@ const RecentTransactions : React.FC<RecentTransactionsProps> = ({ transactions }
         return transaction.item?.amount;
     }
 
+
+
+
     return (
         <IonList className='recent-transactions' >
             <IonListHeader>
@@ -52,9 +93,11 @@ const RecentTransactions : React.FC<RecentTransactionsProps> = ({ transactions }
             </IonListHeader>
             {
                 transactions.map((item, index) => (
-                    <IonItem key={index}>
-                        <IonLabel className='ion-text-wrap
-                        '>{getName(item)}</IonLabel>
+                    <IonItem key={index} routerLink={getRoute(item)}>
+                        <IonLabel className='ion-text-wrap'>
+                            <span className={getColor(item)} style={{ margin: 0 }}>{getSubtitle(item)}</span>
+                            {getName(item)}
+                        </IonLabel>
                         <IonNote slot="end" color="primary">
                             <IonText>
                                 {
