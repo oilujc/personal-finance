@@ -96,8 +96,6 @@ const ExpenseForm: React.FC<ExpenseFormProps> = ({ callback }) => {
 
         
         if (data.date) {
-            console.log(data.date);
-
             const [year, month, day] = data.date.toString().split('-');
             dateFormatted = `${day}-${month}-${year}`;
         }

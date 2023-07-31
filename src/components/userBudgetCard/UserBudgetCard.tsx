@@ -4,7 +4,7 @@ import React, { useEffect, useRef } from 'react';
 import './UserBudgetCard.css';
 
 import UserBudgetForm from '../UserBudgetForm';
-import { barChart, pencil, pieChart, wallet, walletOutline } from 'ionicons/icons';
+import { barChart, calendar, pencil, pieChart, wallet, walletOutline } from 'ionicons/icons';
 import UserTrackEntity from '../../domain/entities/UserTrackEntity';
 import { useHistory } from 'react-router';
 
@@ -57,8 +57,8 @@ const UserBudgetCard: React.FC<UserBudgetCardProps> = ({ userBudget, title }) =>
         <>
             <IonCard>
                 <IonCardContent className="ion-no-padding ion-padding-top ion-padding-bottom">
-                    <IonButton onClick={goTo('/tabs/accounts')} fill="clear" >
-                        <IonIcon slot="icon-only" icon={wallet} color="light" />
+                    <IonButton onClick={goTo('/events')} fill="clear" >
+                        <IonIcon slot="icon-only" icon={calendar} color="light" />
                     </IonButton>
                     <div className="ion-activatable ripple-parent rectangle" onClick={onEdit}>
                         <IonCardSubtitle color="light">
@@ -82,8 +82,8 @@ const UserBudgetCard: React.FC<UserBudgetCardProps> = ({ userBudget, title }) =>
                         <IonRippleEffect>
                         </IonRippleEffect>
                     </div>
-                    <IonButton onClick={goTo('/tabs/accounts')} fill="clear" >
-                        <IonIcon slot="icon-only" icon={barChart} color="light" />
+                    <IonButton onClick={goTo('/events')} fill="clear" >
+                        <IonIcon slot="icon-only" icon={pieChart} color="light" />
                     </IonButton>
                 </IonCardContent>
             </IonCard>

@@ -52,6 +52,7 @@ import Signup from './pages/signup/Signup';
 import UserEntity from './domain/entities/UserEntity';
 import PermissionEntity from './domain/entities/PermissionEntity';
 import UserProfile from './pages/user_profile/UserProfile';
+import Events from './pages/events/Events';
 
 setupIonicReact();
 
@@ -94,6 +95,12 @@ const App: React.FC = () => {
                 <Route exact path="/signup"
                   render={() => {
                     return user ? <Redirect to="/tabs/home" /> : <Signup />
+                  }}
+                />
+
+                <Route exact path="/events"
+                  render={() => {
+                    return user ? <Events /> : <Login />
                   }}
                 />
 
