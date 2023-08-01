@@ -3,7 +3,6 @@ import { Redirect, Route } from 'react-router-dom';
 import {
   IonApp,
   IonRouterOutlet,
-  IonLoading,
   useIonLoading,
   setupIonicReact,
 } from '@ionic/react';
@@ -32,9 +31,9 @@ import '@ionic/react/css/display.css';
 import './theme/variables.css';
 import './App.css';
 
+import { SplashScreen } from '@capacitor/splash-screen';
 
 import { AuthContext } from './context/authContext';
-import { LoadingContext } from './context/loadingContext';
 
 
 import { useAuthInit } from './hooks/authInitHook';
@@ -42,90 +41,86 @@ import { useAuthInit } from './hooks/authInitHook';
 import BottomNavigationBar from './components/BottomNavigationBar';
 import GroupDetail from './pages/group_detail/GroupDetail';
 
-import { GroupContext } from './context/groupContext';
-import GroupEntity from './domain/entities/GroupEntity';
-
 import { useService } from './hooks/serviceHook';
-import PermissionList from './pages/permission/PermissionList';
-import UserPermission from './pages/ user_permission/UserPermission';
 import Signup from './pages/signup/Signup';
 import UserEntity from './domain/entities/UserEntity';
 import PermissionEntity from './domain/entities/PermissionEntity';
 import UserProfile from './pages/user_profile/UserProfile';
+import { LoadingContext } from './context/loadingContext';
 
 setupIonicReact();
 
 const App: React.FC = () => {
 
-  const { authService } = useService();
-  const { currentUser, loading, userPermissions  } = useAuthInit(authService);
-
-  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [user, setUser] = useState<UserEntity | null>(null);
-  const [group, setGroup] = useState<GroupEntity | null>(null);
   const [permissions, setPermissions] = useState<PermissionEntity[]>([]);
 
-  const [dismiss] = useIonLoading();
-
+  const { authService } = useService();
+  const { currentUser, userPermissions, isLoading } = useAuthInit(authService);
 
   useEffect(() => {
-    setUser(currentUser);
+    SplashScreen.show({
+      autoHide: false
+    })
+  }, []);
+
+  useEffect(() => {
+    if (!isLoading) {
+      SplashScreen.hide();
+    }
+  }, [isLoading]);
+
+  useEffect(() => {
+    if (currentUser) {
+      setUser(currentUser);
+    }
   }, [currentUser]);
-
-  useEffect(() => {
-    setIsLoading(loading);
-  }, [loading]);
-
 
   return (
     <IonApp>
-      <LoadingContext.Provider value={{ isLoading, setIsLoading }}>
-        <AuthContext.Provider value={{ user, setUser, permissions, setPermissions }}>
-          <GroupContext.Provider value={{ group, setGroup }}>
-            <IonReactRouter>
-              <IonRouterOutlet>
+      <AuthContext.Provider value={{ user, setUser, permissions, setPermissions }}>
+        <IonReactRouter>
+          <IonRouterOutlet>
 
-                <Route exact path="/login"
-                  render={() => {
-                    return user ? <Redirect to="/tabs/home" /> : <Login />
-                  }}
-                />
+            <Route exact path="/login"
+              render={() => {
+                return user ? <Redirect to="/tabs/home" /> : <Login />
+              }}
+            />
 
-                <Route exact path="/signup"
-                  render={() => {
-                    return user ? <Redirect to="/tabs/home" /> : <Signup />
-                  }}
-                />
+            <Route exact path="/signup"
+              render={() => {
+                return user ? <Redirect to="/tabs/home" /> : <Signup />
+              }}
+            />
 
-                <Route exact path="/group/:id"
-                  render={() => {
-                    return user ? <GroupDetail /> : <Login />
-                  }}
-                />
+            <Route exact path="/group/:id"
+              render={() => {
+                return user ? <GroupDetail /> : <Login />
+              }}
+            />
 
-                <Route exact path="/profile"
-                    render={() => {
-                        return user ? <UserProfile /> : <Login />
-                    }}
-                />
+            <Route exact path="/profile"
+              render={() => {
+                return user ? <UserProfile /> : <Login />
+              }}
+            />
 
-                <Route path="/tabs"
-                  render={() => {
-                    return user ? <BottomNavigationBar /> : <Redirect to="/login" />
-                  }}
-                />
+            <Route path="/tabs"
+              render={() => {
+                return user ? <BottomNavigationBar /> : <Redirect to="/login" />
+              }}
+            />
 
-                <Route exact path="/">
-                  <Redirect to="/tabs/home" />
-                </Route>
+            <Route exact path="/">
+              <Redirect to="/tabs/home" />
+            </Route>
 
-              </IonRouterOutlet>
+          </IonRouterOutlet>
 
 
-            </IonReactRouter>
-          </GroupContext.Provider>
-        </AuthContext.Provider>
-      </LoadingContext.Provider>
+        </IonReactRouter>
+      </AuthContext.Provider>
     </IonApp>
   )
 };
