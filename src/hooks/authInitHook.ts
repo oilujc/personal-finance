@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import AuthService from '../usecases/AuthService';
 import UserEntity from '../domain/entities/UserEntity';
 import PermissionEntity from '../domain/entities/PermissionEntity';
@@ -7,20 +7,20 @@ import PermissionEntity from '../domain/entities/PermissionEntity';
 
 export const useAuthInit = (authService: AuthService) => {
 
-    const [loading, setLoading] = useState<boolean>(true);
     const [currentUser, setCurrentUser] = useState<UserEntity | null>(null);
     const [userPermissions, setUserPermissions] = useState<PermissionEntity[]>([]);
-
+    const [isLoading, setIsLoading] = useState(true);
 
     const fetchCurrentUser = async () => {
         try {
             const user = await authService.getCurrentUser();
-
+            
             setCurrentUser(user);
-            setLoading(false);        
-        
+            setIsLoading(false);
+            
         } catch (error) {
-            setLoading(false);
+            console.log(error);
+            setIsLoading(false);
         }
     }
 
@@ -29,9 +29,9 @@ export const useAuthInit = (authService: AuthService) => {
     }, []);
 
     return {
-        loading,
         currentUser,
-        userPermissions
+        userPermissions,
+        isLoading
     }
 }
 

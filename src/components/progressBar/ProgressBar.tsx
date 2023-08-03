@@ -9,19 +9,9 @@ interface ProgressBarProps {
 
 const ProgressBar: React.FC<ProgressBarProps> = ({ progress, color }) => {
 
-
-    const getFontColor = () => {
-        if (progress > 50) {
-            return "light";
-        }
-
-        return "dark";
-    }
-
-
     return (
         <div className="progress-bar">
-            <div className="progress-bar__progress" style={{ width: `${progress}%` }}>
+            <div className={`progress-bar__progress ${ progress > 100 ? 'complete' : '' }`} style={{ width: `${progress > 100 ? 100 : progress}%` }}>
                 <span className="progress-bar__progress__label">{progress}%</span>
             </div>
         </div>

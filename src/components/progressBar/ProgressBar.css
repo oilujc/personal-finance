@@ -22,6 +22,11 @@
     align-items: center;
 }
 
+.progress-bar .progress-bar__progress.complete {
+    background-color: var(--ion-color-danger);
+    justify-content: center;
+}
+
 .progress-bar .progress-bar__progress__label {
     font-size: 9px;
     color: var(--ion-color-light);

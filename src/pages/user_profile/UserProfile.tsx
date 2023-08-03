@@ -39,7 +39,6 @@ const UserProfile: React.FC = () => {
   }
 
 
-
   return (
     <IonPage>
       <IonHeader>
