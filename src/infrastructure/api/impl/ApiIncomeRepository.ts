@@ -21,18 +21,7 @@ export default class ApiIncomeRepository implements IIncomeRepository {
             }).then((response) => {
 
                 const data = response.data;
-
-                const entity = new IncomeEntity(
-                    data.id ? data.id : "",
-                    data.userId ? data.userId : "",
-                    data.accountId ? data.accountId : "",
-                    data.name ? data.name : "",
-                    data.note ? data.note : "",
-                    data.amount ? data.amount : 0,
-                    data.date ? data.date : null,
-                    data.createdAt ? data.createdAt : new Date(),
-                    data.updatedAt ? data.updatedAt : new Date(),
-                );
+                const entity = IncomeEntity.fromObject(data);
 
                 resolve(entity);
 
@@ -68,18 +57,7 @@ export default class ApiIncomeRepository implements IIncomeRepository {
             }).then((response) => {
 
                 const data = response.data;
-
-                const entity = new IncomeEntity(
-                    data.id ? data.id : "",
-                    data.userId ? data.userId : "",
-                    data.accountId ? data.accountId : "",
-                    data.name ? data.name : "",
-                    data.note ? data.note : "",
-                    data.amount ? data.amount : 0,
-                    data.date ? data.date : null,
-                    data.createdAt ? data.createdAt : new Date(),
-                    data.updatedAt ? data.updatedAt : new Date(),
-                );
+                const entity = IncomeEntity.fromObject(data);
 
                 resolve(entity);
 
@@ -106,18 +84,7 @@ export default class ApiIncomeRepository implements IIncomeRepository {
 
                 data.forEach((item: any) => {
 
-                    const entity = new IncomeEntity(
-                        item.id ? item.id : "",
-                        item.userId ? item.userId : "",
-                        item.accountId ? item.accountId : "",
-                        item.name ? item.name : "",
-                        item.note ? item.note : "",
-                        item.amount ? item.amount : 0,
-                        item.date ? item.date : null,
-                        item.createdAt ? item.createdAt : new Date(),
-                        item.updatedAt ? item.updatedAt : new Date(),
-                    );
-
+                    const entity = IncomeEntity.fromObject(item);
                     entities.push(entity);
 
                 });

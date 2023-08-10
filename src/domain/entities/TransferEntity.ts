@@ -38,5 +38,21 @@ export default class TransferEntity {
         this.updatedAt = updatedAt;
     }
 
+    static fromObject(object: any): TransferEntity {
+        const entity = new TransferEntity(
+            object.id ? object.id : "",
+            object.fromAccountId ? object.fromAccountId : "",
+            object.toAccountId ? object.toAccountId : "",
+            object.userId ? object.userId : "",
+            object.amount ? object.amount : 0,
+            object.name ? object.name : "",
+            object.amountReceived ? object.amountReceived : 0,
+            object.commission ? object.commission : 0,
+            object.createdAt ? new Date(object.createdAt) : new Date(),
+            object.updatedAt ? new Date(object.updatedAt) : new Date(),
+        );
+
+        return entity;
+    }
 }
 

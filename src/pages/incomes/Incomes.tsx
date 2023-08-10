@@ -118,7 +118,7 @@ const Incomes: React.FC = () => {
                                 {incomes.map((item, index) => (
                                     <IonItemSliding key={index}>
                                         <IonItem >
-                                            <IonLabel>
+                                            <IonLabel className='ion-text-wrap'>
                                                 <p style={{ fontSize: '0.8rem' }}>
                                                     {getDateFormat(item)}
                                                 </p>

@@ -21,7 +21,6 @@ const UserSearchForm: React.FC<UserSearchFormProps> = ({ defaultValue, callback 
     const [present] = useIonToast();
 
     const { userService } = useService();
-    const { setIsLoading } = useContext(LoadingContext);
 
     const onSearch = async (value: string) => {
 
@@ -52,12 +51,11 @@ const UserSearchForm: React.FC<UserSearchFormProps> = ({ defaultValue, callback 
                 color: 'danger'
             });
         } finally {
-            setIsLoading(false);
+            console.log('finally')
         }
     }
 
     const onSubmit = async (data: any) => {
-        setIsLoading(true);
         onSearch(data.email);
     }
 

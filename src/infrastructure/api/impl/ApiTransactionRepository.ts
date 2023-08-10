@@ -27,56 +27,7 @@ export default class ApiTransactionRepository implements ITransactionRepository 
 
                 data.forEach((item: any) => {
 
-                    let itemEntity = null;
-
-                    if (item.type === "expense") {
-                        itemEntity = new ExpenseEntity(
-                            item.item.id ? item.item.id : "",
-                            item.item.userId ? item.item.userId : "",
-                            item.item.accountId ? item.item.accountId : "",
-                            item.item.budgetId ? item.item.budgetId : "",
-                            item.item.name ? item.item.name : "",
-                            item.item.note ? item.item.note : "",
-                            item.item.amount ? item.item.amount : 0,
-                            item.item.date ? item.item.date : null,
-                            item.item.createdAt ? item.item.createdAt : new Date(),
-                            item.item.updatedAt ? item.item.updatedAt : new Date(),
-                        );
-                    }
-
-                    if (item.type === "income") {
-                        itemEntity = new IncomeEntity(
-                            item.item.id ? item.item.id : "",
-                            item.item.userId ? item.item.userId : "",
-                            item.item.accountId ? item.item.accountId : "",
-                            item.item.name ? item.item.name : "",
-                            item.item.note ? item.item.note : "",
-                            item.item.amount ? item.item.amount : 0,
-                            item.item.date ? item.item.date : null,
-                            item.item.createdAt ? item.item.createdAt : new Date(),
-                            item.item.updatedAt ? item.item.updatedAt : new Date(),
-                        );
-                    }
-
-                    if (item.type === "transfer") {
-                        itemEntity = new TransferEntity(
-                            item.item.id ? item.item.id : "",
-                            item.item.userId ? item.item.userId : "",
-                            item.item.fromAccountId ? item.item.fromAccountId : "",
-                            item.item.toAccountId ? item.item.toAccountId : "",
-                            item.item.amount ? item.item.amount : 0,
-                            item.item.name ? item.item.name : "",
-                            item.item.amountReceived ? item.item.amountReceived : 0,
-                            item.item.createdAt ? item.item.createdAt : new Date(),
-                            item.item.updatedAt ? item.item.updatedAt : new Date(),
-                        );
-                    }
-
-                    const entity = new TransactionEntity(
-                        item.type ? item.type : "",
-                        itemEntity ? itemEntity : null,
-                    );
-
+                    const entity = TransactionEntity.fromObject(item);
                     entities.push(entity);
 
                 });

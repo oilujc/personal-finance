@@ -33,7 +33,6 @@ const TransferForm: React.FC<TransferFormProps> = ({ accounts, callback }) => {
 
     const { transferService } = useService();
     const { user } = useContext(AuthContext);
-    const { setIsLoading } = useContext(LoadingContext);
 
     const newTransfer = async (value: TransferCreateData) => {
         try {
@@ -45,7 +44,6 @@ const TransferForm: React.FC<TransferFormProps> = ({ accounts, callback }) => {
                 });
             }
 
-            setIsLoading(false);
 
             present({
                 message: 'Transferencia creada correctamente',
@@ -56,7 +54,6 @@ const TransferForm: React.FC<TransferFormProps> = ({ accounts, callback }) => {
         } catch (error) {
             console.log(error);
 
-            setIsLoading(false);
 
             present({
                 message: 'Error al crear la Transferencia',
@@ -98,7 +95,6 @@ const TransferForm: React.FC<TransferFormProps> = ({ accounts, callback }) => {
             return;
         }
 
-        setIsLoading(true);
         newTransfer(transferData);
 
       

@@ -40,6 +40,21 @@ export default class UserTrackEntity {
         this.updatedAt = updatedAt;
     }
 
+    static fromObject(object: any): UserTrackEntity {
+        return new UserTrackEntity(
+            object.id,
+            object.userId,
+            object.budgetMonthMax,
+            object.currentMonth,
+            object.currentYear,
+            object.currentAmount,
+            object.currentProgress,
+            object.totalIncome,
+            object.totalExpense,
+            object.createdAt,
+            object.updatedAt
+        );
+    }
 
 
 }

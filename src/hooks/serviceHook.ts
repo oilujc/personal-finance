@@ -4,6 +4,7 @@ import ApiBudgetProgressRepository from "../infrastructure/api/impl/ApiBudgetPro
 import ApiBudgetRepository from "../infrastructure/api/impl/ApiBudgetRepository";
 import ApiExpenseRepository from "../infrastructure/api/impl/ApiExpenseRepository";
 import ApiIncomeRepository from "../infrastructure/api/impl/ApiIncomeRepository";
+import ApiLoanRepository from "../infrastructure/api/impl/ApiLoanRepository";
 import ApiTransactionRepository from "../infrastructure/api/impl/ApiTransactionRepository";
 import ApiTransferRepository from "../infrastructure/api/impl/ApiTransferRepository";
 import ApiUserTrackRepository from "../infrastructure/api/impl/ApiUserTrackRepository";
@@ -20,6 +21,7 @@ import CategoryService from "../usecases/CategoryService";
 import ExpenseService from "../usecases/ExpenseService";
 import GroupService from "../usecases/GroupService";
 import IncomeService from "../usecases/IncomeService";
+import LoanService from "../usecases/LoanService";
 import PermissionService from "../usecases/PermissionService";
 import TransactionService from "../usecases/TransactionService";
 import TransferService from "../usecases/TransferService";
@@ -45,6 +47,7 @@ export const useService = () => {
         budgetProgress: new ApiBudgetProgressRepository(),
         userTrack: new ApiUserTrackRepository(),
         transaction: new ApiTransactionRepository(),
+        loan: new ApiLoanRepository(),
     }
 
 
@@ -104,6 +107,10 @@ export const useService = () => {
         repositories.transaction,
     )
 
+    const loanService = new LoanService(
+        repositories.loan,
+    )
+
     return {
         groupService,
         authService,
@@ -119,5 +126,6 @@ export const useService = () => {
         expenseService,
         userBudgetService,
         transactionService,
+        loanService,
     }
 }

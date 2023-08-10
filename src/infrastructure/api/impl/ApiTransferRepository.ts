@@ -22,18 +22,7 @@ export default class ApiTransferRepository implements ITransferRepository {
             }).then((response) => {
 
                 const data = response.data;
-
-                const entity = new TransferEntity(
-                    data.id ? data.id : "",
-                    data.userId ? data.userId : "",
-                    data.fromAccountId ? data.fromAccountId : "",
-                    data.toAccountId ? data.toAccountId : "",
-                    data.amount ? data.amount : 0,
-                    data.name ? data.name : "",
-                    data.amountReceived ? data.amountReceived : null,
-                    data.createdAt ? data.createdAt : new Date(),
-                    data.updatedAt ? data.updatedAt : new Date(),
-                );
+                const entity = TransferEntity.fromObject(data);
 
                 resolve(entity);
 
@@ -69,19 +58,7 @@ export default class ApiTransferRepository implements ITransferRepository {
 
                 data.forEach((item: any) => {
 
-                    const entity = new TransferEntity(
-                        item.id ? item.id : "",
-                        item.userId ? item.userId : "",
-                        item.fromAccountId ? item.fromAccountId : "",
-                        item.toAccountId ? item.toAccountId : "",
-                        item.amount ? item.amount : 0,
-                        item.name ? item.name : "",
-                        item.amountReceived ? item.amountReceived : null,
-                        item.commission ? item.commission : null,
-                        item.createdAt ? item.createdAt : new Date(),
-                        item.updatedAt ? item.updatedAt : new Date(),
-                    );
-
+                    const entity = TransferEntity.fromObject(item);
                     entities.push(entity);
 
                 });

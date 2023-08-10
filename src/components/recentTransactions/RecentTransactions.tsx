@@ -50,6 +50,10 @@ const RecentTransactions : React.FC<RecentTransactionsProps> = ({ transactions }
             return `/tabs/accounts`;
         }
 
+        if (transaction.type !== 'transfer' && transaction.item && 'loanId' in transaction.item && transaction.item?.loanId !== '') {
+            return `/loans/${transaction.item?.loanId}`;
+        }
+
         if (transaction.type === 'expense') {
             return `/tabs/expenses`;
         }

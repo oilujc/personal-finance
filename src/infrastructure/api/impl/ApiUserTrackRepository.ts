@@ -21,19 +21,8 @@ export default class ApiUserTrackRepository implements IUserTrackRepository {
                 }
             }).then((response) => {
 
-                const entity = new UserTrackEntity(
-                    response.data.id ? response.data.id : "",
-                    response.data.userId ? response.data.userId : "",
-                    response.data.budgetMonthMax ? response.data.budgetMonthMax : 0,
-                    response.data.currentMonth ? response.data.currentMonth : 0,
-                    response.data.currentYear ? response.data.currentYear : 0,
-                    response.data.currentAmount ? response.data.currentAmount : 0,
-                    response.data.currentProgress ? response.data.currentProgress : 0,
-                    response.data.totalIncome ? response.data.totalIncome : 0,
-                    response.data.totalExpense ? response.data.totalExpense : 0,
-                    response.data.createdAt ? response.data.createdAt : new Date(),
-                    response.data.updatedAt ? response.data.updatedAt : new Date(),
-                );
+                const data = response.data;
+                const entity = UserTrackEntity.fromObject(data);
 
                 resolve(entity);
             }).catch((error) => { reject(error); });
@@ -60,20 +49,8 @@ export default class ApiUserTrackRepository implements IUserTrackRepository {
                     return;
                 }
 
-                const entity = new UserTrackEntity(
-                    data.id ? data.id : "",
-                    data.userId ? data.userId : "",
-                    data.budgetMonthMax ? data.budgetMonthMax : 0,
-                    data.currentMonth ? data.currentMonth : 0,
-                    data.currentYear ? data.currentYear : 0,
-                    data.currentAmount ? data.currentAmount : 0,
-                    data.currentProgress ? data.currentProgress : 0,
-                    data.totalIncome ? data.totalIncome : 0,
-                    data.totalExpense ? data.totalExpense : 0,
-                    data.createdAt ? data.createdAt : new Date(),
-                    data.updatedAt ? data.updatedAt : new Date(),
-                );
 
+                const entity = UserTrackEntity.fromObject(data);
                 resolve(entity);
                 
             }).catch((error) => { reject(error); });
@@ -99,19 +76,7 @@ export default class ApiUserTrackRepository implements IUserTrackRepository {
 
                 data.forEach((item: any) => {
 
-                    const entity = new UserTrackEntity(
-                        item.id ? item.id : "",
-                        item.userId ? item.userId : "",
-                        item.budgetId ? item.budgetId : "",
-                        item.currentAmount ? item.currentAmount : 0,
-                        item.currentProgress ? item.currentProgress : 0,
-                        item.month ? item.month : 0,
-                        item.year ? item.year : 0,
-                        item.expenses ? item.expenses : [],
-                        item.createdAt ? item.createdAt : new Date(),
-                        item.updatedAt ? item.updatedAt : new Date(),
-                    );
-
+                    const entity = UserTrackEntity.fromObject(item);
                     entities.push(entity);
 
                 });

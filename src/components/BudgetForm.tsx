@@ -25,8 +25,6 @@ const BudgetForm: React.FC<BudgetFormProps> = ({ defaultValue, callback }) => {
 
     const { budgetService } = useService();
     const { user } = useContext(AuthContext);
-    const { setIsLoading } = useContext(LoadingContext);
-
     const periods = [
         {
             value: 'monthly',
@@ -56,8 +54,6 @@ const BudgetForm: React.FC<BudgetFormProps> = ({ defaultValue, callback }) => {
                 });
             }
 
-            setIsLoading(false);
-
             present({
                 message: 'Presupuesto creado correctamente',
                 duration: 3000,
@@ -66,8 +62,6 @@ const BudgetForm: React.FC<BudgetFormProps> = ({ defaultValue, callback }) => {
 
         } catch (error) {
             console.log(error);
-
-            setIsLoading(false);
 
             present({
                 message: 'Error al crear el presupuesto',
@@ -89,8 +83,6 @@ const BudgetForm: React.FC<BudgetFormProps> = ({ defaultValue, callback }) => {
                 });
             }
 
-            setIsLoading(false);
-
             present({
                 message: 'Presupuesto actualizado correctamente',
                 duration: 3000,
@@ -99,8 +91,6 @@ const BudgetForm: React.FC<BudgetFormProps> = ({ defaultValue, callback }) => {
 
         } catch (error) {
             console.log(error);
-
-            setIsLoading(false);
 
             present({
                 message: 'Error al actualizar el presupuesto',
@@ -132,8 +122,6 @@ const BudgetForm: React.FC<BudgetFormProps> = ({ defaultValue, callback }) => {
             budget.amount = amount;
             budget.period = data.period;
         }
-
-        setIsLoading(true);
 
         if (!defaultValue) {
             newBudget(budget);

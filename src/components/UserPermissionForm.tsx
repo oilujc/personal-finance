@@ -62,8 +62,6 @@ const UserPermissionForm: React.FC<UserPermissionFormProps> = ({ defaultValue, c
 
     const [present] = useIonToast();
 
-    const { setIsLoading } = useContext(LoadingContext);
-
     const [permissions, setPermissions] = useState<PermissionEntity[]>([]);
     const [userPermission, setUserPermission] = useState<UserPermissionEntity[]>([]);
 
@@ -134,8 +132,6 @@ const UserPermissionForm: React.FC<UserPermissionFormProps> = ({ defaultValue, c
             await callback(true);
         }
 
-        setIsLoading(false);
-
         present({
             message: 'Permisos actualizados',
             duration: 2000,
@@ -146,8 +142,6 @@ const UserPermissionForm: React.FC<UserPermissionFormProps> = ({ defaultValue, c
     }
 
     const onSubmit = async (data: any) => {
-        setIsLoading(true);
-
         const elements = data.permissions;
 
         await onCreate(elements);

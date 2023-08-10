@@ -47,6 +47,8 @@ import UserEntity from './domain/entities/UserEntity';
 import PermissionEntity from './domain/entities/PermissionEntity';
 import UserProfile from './pages/user_profile/UserProfile';
 import { LoadingContext } from './context/loadingContext';
+import Loans from './pages/loans/Loans';
+import LoanDetail from './pages/loan_detail/LoanDetail';
 
 setupIonicReact();
 
@@ -96,13 +98,25 @@ const App: React.FC = () => {
 
             <Route exact path="/group/:id"
               render={() => {
-                return user ? <GroupDetail /> : <Login />
+                return user ? <GroupDetail /> : <Redirect to="/login" />
               }}
             />
 
             <Route exact path="/profile"
               render={() => {
-                return user ? <UserProfile /> : <Login />
+                return user ? <UserProfile /> : <Redirect to="/login" />
+              }}
+            />
+
+            <Route exact path="/loans"
+              render={() => {
+                return user ? <Loans /> : <Redirect to="/login" />
+              }}
+            />
+
+            <Route exact path="/loans/:id"
+              render={() => {
+                return user ? <LoanDetail /> : <Redirect to="/login" />
               }}
             />
 

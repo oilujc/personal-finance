@@ -55,7 +55,7 @@ const UserBudgetCard: React.FC<UserBudgetCardProps> = ({ userBudget, title }) =>
 
     return (
         <>
-            <IonCard>
+            <IonCard className='user-budget-card'>
                 <IonCardContent className="ion-no-padding ion-padding-top ion-padding-bottom">
                     <IonButton onClick={goTo('/tabs/accounts')} fill="clear" >
                         <IonIcon slot="icon-only" icon={wallet} color="light" />

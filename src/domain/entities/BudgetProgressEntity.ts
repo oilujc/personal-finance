@@ -40,4 +40,20 @@ export default class BudgetProgressEntity {
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
     }
+
+    static fromObject(object: any): BudgetProgressEntity {
+        return new BudgetProgressEntity(
+            object.id,
+            object.userId,
+            object.budgetId,
+            object.currentAmount,
+            object.currentProgress,
+            object.month,
+            object.year,
+            object.expenses.map((expense: any) => ExpenseEntity.fromObject(expense)),
+            object.createdAt,
+            object.updatedAt
+        );
+    }
+
 }

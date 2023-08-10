@@ -23,7 +23,6 @@ const PermissionForm: React.FC<PermissionFormProps> = ({ defaultValue, callback 
     const [present] = useIonToast();
 
     const { permissionService } = useService();
-    const { setIsLoading } = useContext(LoadingContext);
 
     const onCreate = async (value: PermissionEntity) => {
         try {
@@ -34,7 +33,6 @@ const PermissionForm: React.FC<PermissionFormProps> = ({ defaultValue, callback 
                 await callback();
             }
 
-            setIsLoading(false);
 
             present({
                 message: 'Permiso creado correctamente',
@@ -45,7 +43,6 @@ const PermissionForm: React.FC<PermissionFormProps> = ({ defaultValue, callback 
         } catch (error) {
             console.log(error);
 
-            setIsLoading(false);
 
             present({
                 message: 'Error al crear el permiso',
@@ -65,7 +62,6 @@ const PermissionForm: React.FC<PermissionFormProps> = ({ defaultValue, callback 
                     await callback();
                 }
     
-                setIsLoading(false);
     
                 present({
                     message: 'Permiso actualizado correctamente',
@@ -76,7 +72,6 @@ const PermissionForm: React.FC<PermissionFormProps> = ({ defaultValue, callback 
         } catch (error) {
             console.log(error);
     
-            setIsLoading(false);
     
             present({
                 message: 'Error al actualizar el permiso',
@@ -97,7 +92,6 @@ const PermissionForm: React.FC<PermissionFormProps> = ({ defaultValue, callback 
             data.isDefault,
         );
 
-        setIsLoading(true);
 
         if (!defaultValue) {
             onCreate(permission);

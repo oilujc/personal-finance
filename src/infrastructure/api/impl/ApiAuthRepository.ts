@@ -14,13 +14,9 @@ export default class ApiAuthRepository implements IAuthRepository {
             }).then((response) => {
 
                 const data = response.data;
+                const { user } = data;
 
-                const userEntity = new UserEntity(
-                    data.user.id ? data.user.id : "",
-                    data.user.firstName ? data.user.firstName : "",
-                    data.user.lastName ? data.user.lastName : "",
-                    data.user.email ? data.user.email : ""
-                );
+                const userEntity = UserEntity.fromObject(user);
                 
                 localStorage.setItem("token", data.access_token);
                 localStorage.setItem("token_type", data.token_type);
@@ -44,13 +40,10 @@ export default class ApiAuthRepository implements IAuthRepository {
             }).then((response) => {
 
                 const data = response.data;
+                const { user } = data;
 
-                const userEntity = new UserEntity(
-                    data.user.id ? data.user.id : "",
-                    data.user.firstName ? data.user.firstName : "",
-                    data.user.lastName ? data.user.lastName : "",
-                    data.user.email ? data.user.email : ""
-                );
+                const userEntity = UserEntity.fromObject(user);
+
 
                 localStorage.setItem("token", data.access_token);
                 localStorage.setItem("token_type", data.token_type);
@@ -73,13 +66,8 @@ export default class ApiAuthRepository implements IAuthRepository {
             }).then((response) => {
                 
                 const data = response.data;
+                const userEntity = UserEntity.fromObject(data);
 
-                const userEntity = new UserEntity(
-                    data.id ? data.id : "",
-                    data.firstName ? data.firstName : "",
-                    data.lastName ? data.lastName : "",
-                    data.email ? data.email : ""
-                );
 
                 resolve(userEntity);
 

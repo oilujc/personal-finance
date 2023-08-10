@@ -1,24 +1,20 @@
-ion-card {
-    box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.2);
-}
-
-ion-card-content {
+.user-budget-card ion-card-content {
     display: flex;
     align-items: center;
     justify-content: space-between;
     background: url('/public/assets/background.svg') no-repeat;
 }
 
-ion-card-content ion-card-title {
+.user-budget-card ion-card-content ion-card-title {
     font-size: 24px;
     font-weight: 600;
 }
 
-ion-card-content ion-button {
+.user-budget-card ion-card-content ion-button {
     width: 20%;
 }
 
-ion-card-content div {
+.user-budget-card ion-card-content div {
     padding: 0 10px;
     text-align: center;
 }
