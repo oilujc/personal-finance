@@ -22,7 +22,6 @@ const UserBudgetForm: React.FC<UserBudgetFormProps> = ({ defaultValue, callback 
     const [present] = useIonToast();
 
     const { userBudgetService } = useService();
-    const { setIsLoading } = useContext(LoadingContext);
 
 
     const updateAccount = async (value: UserTrackEntity) => {
@@ -38,8 +37,6 @@ const UserBudgetForm: React.FC<UserBudgetFormProps> = ({ defaultValue, callback 
                 });
             }
 
-            setIsLoading(false);
-
             present({
                 message: 'Presupuesto mensual actualizado correctamente',
                 duration: 3000,
@@ -48,8 +45,6 @@ const UserBudgetForm: React.FC<UserBudgetFormProps> = ({ defaultValue, callback 
 
         } catch (error) {
             console.log(error);
-
-            setIsLoading(false);
 
             present({
                 message: 'Error al actualizar el presupuesto mensual',
@@ -67,7 +62,6 @@ const UserBudgetForm: React.FC<UserBudgetFormProps> = ({ defaultValue, callback 
         const budgetMonthMax: number = data.budgetMonthMax;
         defaultValue.budgetMonthMax = budgetMonthMax;
 
-        setIsLoading(true);
         updateAccount(defaultValue);
 
 

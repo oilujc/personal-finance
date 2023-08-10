@@ -24,7 +24,6 @@ const AccountForm: React.FC<AccountFormProps> = ({ defaultValue, callback }) => 
 
     const { accountService } = useService();
     const { user } = useContext(AuthContext);
-    const { setIsLoading } = useContext(LoadingContext);
 
     const newAccount = async (value: AccountEntity) => {
         try {
@@ -36,7 +35,6 @@ const AccountForm: React.FC<AccountFormProps> = ({ defaultValue, callback }) => 
                 });
             }
 
-            setIsLoading(false);
 
             present({
                 message: 'Cuenta creada correctamente',
@@ -47,7 +45,6 @@ const AccountForm: React.FC<AccountFormProps> = ({ defaultValue, callback }) => 
         } catch (error) {
             console.log(error);
 
-            setIsLoading(false);
 
             present({
                 message: 'Error al crear la Cuenta',
@@ -68,7 +65,6 @@ const AccountForm: React.FC<AccountFormProps> = ({ defaultValue, callback }) => 
                 });
             }
 
-            setIsLoading(false);
 
             present({
                 message: 'Cuenta actualizada correctamente',
@@ -79,7 +75,6 @@ const AccountForm: React.FC<AccountFormProps> = ({ defaultValue, callback }) => 
         } catch (error) {
             console.log(error);
 
-            setIsLoading(false);
 
             present({
                 message: 'Error al actualizar la cuenta',
@@ -116,7 +111,6 @@ const AccountForm: React.FC<AccountFormProps> = ({ defaultValue, callback }) => 
             account.isActive = data.isActive;
         }
 
-        setIsLoading(true);
 
         if (!defaultValue) {
             newAccount(account);

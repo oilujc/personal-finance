@@ -14,4 +14,28 @@ export default class TransactionEntity {
         this.type = type;
         this.item = item;
     }
+
+    static fromObject(object: any): TransactionEntity {
+
+        let item = null;
+
+        if (object.type === "expense") {
+            item = ExpenseEntity.fromObject(object.item);
+        }
+
+        if (object.type === "income") {
+            item = IncomeEntity.fromObject(object.item);
+        }
+
+        if (object.type === "transfer") {
+            item = TransferEntity.fromObject(object.item);
+        }
+
+        const entity = new TransactionEntity(
+            object.type ? object.type : "",
+            item
+        );
+
+        return entity;
+    }
 }

@@ -4,7 +4,7 @@ export default class ExpenseEntity {
     userId: string;
     accountId: string;
     budgetId: string; // BudgetEntity.id
-
+    loanId?: string; 
 
     name: string;
     note: string;
@@ -40,4 +40,22 @@ export default class ExpenseEntity {
         this.updatedAt = updatedAt;
     }
     
+    static fromObject(object: any): ExpenseEntity {
+        const entity = new ExpenseEntity(
+            object.id ? object.id : "",
+            object.userId ? object.userId : "",
+            object.accountId ? object.accountId : "",
+            object.budgetId ? object.budgetId : "",
+            object.name ? object.name : "",
+            object.note ? object.note : "",
+            object.amount ? object.amount : 0,
+            object.date ? object.date : null,
+            object.createdAt ? new Date(object.createdAt) : new Date(),
+            object.updatedAt ? new Date(object.updatedAt) : new Date(),
+        );
+
+        entity.loanId = object.loanId ? object.loanId : "";
+
+        return entity;
+    }
 }

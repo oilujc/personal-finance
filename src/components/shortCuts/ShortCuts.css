@@ -32,3 +32,15 @@
 .shortcuts .shortcuts__item .shortcuts__item__icon.icon__danger {
     background-color: var(--ion-color-danger);
 }
+
+.shortcuts .shortcuts__item .shortcuts__item__icon.icon__warning {
+    background-color: var(--ion-color-warning);
+}
+
+.shortcuts .shortcuts__item .shortcuts__item__icon.icon__tertiary {
+    background-color: var(--ion-color-tertiary);
+}
+
+.shortcuts .shortcuts__item .shortcuts__item__icon.icon__medium {
+    background-color: var(--ion-color-medium);
+}

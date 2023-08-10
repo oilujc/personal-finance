@@ -24,7 +24,6 @@ const IncomeForm: React.FC<IncomeFormProps> = ({ callback }) => {
 
     const { incomeService, accountService } = useService();
     const { user } = useContext(AuthContext);
-    const { setIsLoading } = useContext(LoadingContext);
 
     const [accounts, setAccounts] = useState<AccountEntity[]>([]);
 
@@ -49,7 +48,6 @@ const IncomeForm: React.FC<IncomeFormProps> = ({ callback }) => {
                 });
             }
 
-            setIsLoading(false);
 
             present({
                 message: 'Ingreso creado correctamente',
@@ -60,7 +58,6 @@ const IncomeForm: React.FC<IncomeFormProps> = ({ callback }) => {
         } catch (error) {
             console.log(error);
 
-            setIsLoading(false);
 
             present({
                 message: 'Error al crear el Ingreso',
@@ -95,7 +92,6 @@ const IncomeForm: React.FC<IncomeFormProps> = ({ callback }) => {
             dateFormatted
         )
 
-        setIsLoading(true);
         newIncome(income);
 
     }

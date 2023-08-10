@@ -40,34 +40,7 @@ export default class ApiBudgetProgressRepository implements IBudgetProgressRepos
 
                 data.forEach((item: any) => {
 
-                    if (item.expenses) {
-                        item.expenses = item.expenses.map((expense: any) => {
-                            return new ExpenseEntity(
-                                expense.id ? expense.id : "",
-                                expense.userId ? expense.userId : "",
-                                expense.budgetId ? expense.budgetId : "",
-                                expense.name ? expense.name : "",
-                                expense.amount ? expense.amount : 0,
-                                expense.createdAt ? expense.createdAt : new Date(),
-                                expense.updatedAt ? expense.updatedAt : new Date(),
-                            );
-                        });
-                    }
-
-
-                    const entity = new BudgetProgressEntity(
-                        item.id ? item.id : "",
-                        item.userId ? item.userId : "",
-                        item.budgetId ? item.budgetId : "",
-                        item.currentAmount ? item.currentAmount : 0,
-                        item.currentProgress ? item.currentProgress : 0,
-                        item.month ? item.month : 0,
-                        item.year ? item.year : 0,
-                        item.expenses ? item.expenses : [],
-                        item.createdAt ? item.createdAt : new Date(),
-                        item.updatedAt ? item.updatedAt : new Date(),
-                    );
-
+                    const entity = BudgetProgressEntity.fromObject(item);
                     entities.push(entity);
 
                 });

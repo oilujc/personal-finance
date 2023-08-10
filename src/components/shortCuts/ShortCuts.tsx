@@ -4,6 +4,7 @@ import { IonIcon, IonModal, IonRippleEffect } from '@ionic/react';
 import { bagAddOutline, swapHorizontalOutline, trendingDownOutline, trendingUpOutline } from 'ionicons/icons';
 import ExpenseForm from '../ExpenseForm';
 import IncomeForm from '../IncomeForm';
+import { useHistory } from 'react-router';
 
 interface ShortCutsProps {
     callback: (value: any) => Promise<void>;
@@ -12,79 +13,48 @@ interface ShortCutsProps {
 
 const ShortCuts: React.FC<ShortCutsProps> = ({ callback }) => {
 
-    const [onOpenModal, setOnOpenModal] = React.useState<boolean>(false);
-    const [action, setAction] = React.useState<string>(''); // income, expense, purchase, loan
-    const modal = React.useRef<HTMLIonModalElement>(null);
+    const history = useHistory();
 
-    const openModal = (action: string) => {
-        setAction(action);
-        setOnOpenModal(true);
-    }
-
-    const onSave = async (value: any) => {
-        setOnOpenModal(false);
-        setAction('');
-        await callback(value);
+    const goTo = (path: string) => {
+        history.push(path);
     }
 
     return (
         <>
             <div className="shortcuts ion-padding">
                 <div className="shortcuts__item">
-                    <div className="shortcuts__item__icon icon__success" onClick={() => openModal('income')}>
+                    <div className="shortcuts__item__icon icon__tertiary" onClick={() => goTo('/tabs/incomes')}>
                         <IonIcon icon={trendingUpOutline} color="light"></IonIcon>
                     </div>
                     <div className="shortcuts__item__name">
-                        <span>Ingreso</span>
+                        <span>Ingresos</span>
                     </div>
                 </div>
-                <div className="shortcuts__item" onClick={() => openModal('expense')}>
-                    <div className="shortcuts__item__icon icon__danger">
+                <div className="shortcuts__item" onClick={() => goTo('/tabs/expenses')}>
+                    <div className="shortcuts__item__icon icon__tertiary">
                         <IonIcon icon={trendingDownOutline} color="light"></IonIcon>
                     </div>
                     <div className="shortcuts__item__name">
-                        <span>Gasto</span>
+                        <span>Gastos</span>
                     </div>
                 </div>
-                <div className="shortcuts__item">
-                    <div className="shortcuts__item__icon icon__danger">
-                        <IonIcon icon={bagAddOutline} color="light"></IonIcon>
-                    </div>
-                    <div className="shortcuts__item__name">
-                        <span>Compra</span>
-                    </div>
-                </div>
-                <div className="shortcuts__item">
-                    <div className="shortcuts__item__icon icon__danger">
+                <div className="shortcuts__item" onClick={() => goTo('/loans')}>
+                    <div className="shortcuts__item__icon icon__tertiary">
                     <IonIcon icon={swapHorizontalOutline} color="light"></IonIcon>
                     </div>
                     <div className="shortcuts__item__name">
-                        <span>Prestamo</span>
+                        <span>Prestamos</span>
+                    </div>
+                </div>
+                <div className="shortcuts__item">
+                    <div className="shortcuts__item__icon icon__tertiary">
+                        <IonIcon icon={bagAddOutline} color="light"></IonIcon>
+                    </div>
+                    <div className="shortcuts__item__name">
+                        <span>Compras</span>
                     </div>
                 </div>
             </div>
-
-
-            
-            <IonModal ref={modal}
-                onDidDismiss={() => setOnOpenModal(false)}
-                isOpen={onOpenModal}
-                initialBreakpoint={0.70}
-                breakpoints={[0, 0.70, 1]}
-                handleBehavior="cycle">
-
-                    {
-                        action === 'expense' && (<ExpenseForm callback={onSave} />)
-                    }
-
-                    {
-                        action === 'income' && (<IncomeForm callback={onSave} />)
-                    }
-
-
-                   
-            </IonModal>
-
         </>
     )
 }

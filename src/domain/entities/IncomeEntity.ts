@@ -3,6 +3,7 @@ export default class IncomeEntity {
     id: string;
     userId: string;
     accountId: string;
+    loanId?: string;
 
     name: string;
     note: string;
@@ -36,5 +37,21 @@ export default class IncomeEntity {
         this.updatedAt = updatedAt;
     }
 
+    static fromObject(object: any): IncomeEntity {
+        const entity = new IncomeEntity(
+            object.id ? object.id : "",
+            object.userId ? object.userId : "",
+            object.accountId ? object.accountId : "",
+            object.name ? object.name : "",
+            object.note ? object.note : "",
+            object.amount ? object.amount : 0,
+            object.date ? object.date : null,
+            object.createdAt ? new Date(object.createdAt) : new Date(),
+            object.updatedAt ? new Date(object.updatedAt) : new Date(),
+        );
 
+        entity.loanId = object.loanId ? object.loanId : "";
+
+        return entity;
+    }
 }

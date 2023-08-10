@@ -4,7 +4,6 @@ import { Controller, useForm } from "react-hook-form";
 import GroupEntity from "../domain/entities/GroupEntity";
 import { AuthContext } from "../context/authContext";
 import { LoadingContext } from "../context/loadingContext";
-import { ModalContext } from "../context/modalContext";
 import { useService } from "../hooks/serviceHook";
 
 
