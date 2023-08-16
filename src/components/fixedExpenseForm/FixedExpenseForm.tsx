@@ -1,19 +1,17 @@
 import { IonButton, IonCheckbox, IonCol, IonInput, IonItem, IonLabel, IonRow, IonSelect, IonSelectOption, IonText, useIonToast } from "@ionic/react";
 import React, { useContext, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
-import BudgetEntity from "../domain/entities/BudgetEntity";
-import { AuthContext } from "../context/authContext";
-import { LoadingContext } from "../context/loadingContext";
-import { useService } from "../hooks/serviceHook";
+import FixedExpenseEntity from "../../domain/entities/FixedExpenseEntity";
+import { useService } from "../../hooks/serviceHook";
+import { AuthContext } from "../../context/authContext";
 
 
-
-interface BudgetFormProps {
-    defaultValue?: BudgetEntity | null;
+interface FixedExpenseFormProps {
+    defaultValue?: FixedExpenseEntity | null;
     callback?: (data?: any) => Promise<void>;
 }
 
-const BudgetForm: React.FC<BudgetFormProps> = ({ defaultValue, callback }) => {
+const FixedExpenseForm: React.FC<FixedExpenseFormProps> = ({ defaultValue, callback }) => {
 
     const {
         control,
@@ -23,39 +21,21 @@ const BudgetForm: React.FC<BudgetFormProps> = ({ defaultValue, callback }) => {
 
     const [present] = useIonToast();
 
-    const { budgetService } = useService();
+    const { fixedExpenseService } = useService();
     const { user } = useContext(AuthContext);
-    const periods = [
-        {
-            value: 'monthly',
-            label: 'Mensual'
-        },
-        // {
-        //     value: 'weekly',
-        //     label: 'Semanal'
-        // },
-        // {
-        //     value: 'biweekly',
-        //     label: 'Quincenal'
-        // },
-        // {
-        //     value: 'yearly',
-        //     label: 'Anual'
-        // }
-    ]
 
-    const newBudget = async (value: BudgetEntity) => {
+    const newFixedExpense = async (value: FixedExpenseEntity) => {
         try {
-            const result = await budgetService.create(value);
+            const result = await fixedExpenseService.create(value);
 
             if (callback !== undefined) {
                 await callback({
-                    account: result
+                    data: result
                 });
             }
 
             present({
-                message: 'Presupuesto creado correctamente',
+                message: 'Gasto fijo creado correctamente',
                 duration: 3000,
                 position: 'bottom'
             })
@@ -64,27 +44,27 @@ const BudgetForm: React.FC<BudgetFormProps> = ({ defaultValue, callback }) => {
             console.log(error);
 
             present({
-                message: 'Error al crear el presupuesto',
+                message: 'Error al crear el Gasto fijo',
                 duration: 3000,
                 position: 'bottom'
             })
         }
     }
 
-    const updateAccount = async (value: BudgetEntity) => {
+    const updateAccount = async (value: FixedExpenseEntity) => {
 
         try {
 
-            const result = await budgetService.update(value);
+            const result = await fixedExpenseService.update(value);
 
             if (callback !== undefined) {
                 await callback({
-                    account: result
+                    data: result
                 });
             }
 
             present({
-                message: 'Presupuesto actualizado correctamente',
+                message: 'Gasto fijo actualizado correctamente',
                 duration: 3000,
                 position: 'bottom'
             })
@@ -93,7 +73,7 @@ const BudgetForm: React.FC<BudgetFormProps> = ({ defaultValue, callback }) => {
             console.log(error);
 
             present({
-                message: 'Error al actualizar el presupuesto',
+                message: 'Error al actualizar el Gasto fijo',
                 duration: 3000,
                 position: 'bottom'
             })
@@ -106,27 +86,29 @@ const BudgetForm: React.FC<BudgetFormProps> = ({ defaultValue, callback }) => {
     const onSubmit = async (data: any) => {
 
         const amount: number = parseFloat(data.amount);
+        const dateFormatted: number = parseInt(data.date);
 
-        let budget = new BudgetEntity(
+
+        let entity = new FixedExpenseEntity(
             '',
             user ? user.id : '',
             data.name,
             amount,
-            data.period,
+            dateFormatted,
         );
 
         if (defaultValue) {
-            budget = defaultValue;
+            entity = defaultValue;
 
-            budget.name = data.name;
-            budget.amount = amount;
-            budget.period = data.period;
+            entity.name = data.name;
+            entity.amount = amount;
+            entity.date = dateFormatted;
         }
 
         if (!defaultValue) {
-            newBudget(budget);
+            newFixedExpense(entity);
         } else {
-            updateAccount(budget);
+            updateAccount(entity);
         }
 
 
@@ -139,7 +121,7 @@ const BudgetForm: React.FC<BudgetFormProps> = ({ defaultValue, callback }) => {
                 <IonRow>
                     <IonCol size='12' className="ion-padding-vertical ion-text-center">
                         <IonText>
-                            {defaultValue ? 'Editar presupuesto' : 'Nueva presupuesto'}
+                            {defaultValue ? 'Editar Gasto fijo' : 'Nuevo Gasto fijo'}
                         </IonText>
                     </IonCol>
                     <IonCol size='12'>
@@ -163,6 +145,7 @@ const BudgetForm: React.FC<BudgetFormProps> = ({ defaultValue, callback }) => {
                             <Controller
                                 name="amount"
                                 control={control}
+                                defaultValue={defaultValue ? defaultValue.amount : ''}
                                 render={({ field: { onChange, value, onBlur } }) => <IonInput
                                     onIonChange={onChange} value={value} onIonBlur={onBlur} pattern="^[0-9]+([.][0-9]{1,2})?$" inputMode="decimal" type="text" />}
                             />
@@ -171,17 +154,15 @@ const BudgetForm: React.FC<BudgetFormProps> = ({ defaultValue, callback }) => {
                     <IonCol size='12'>
                         <IonItem>
                             <IonLabel>
-                                Periodo
+                                Dia de pago
                             </IonLabel>
-                            <IonSelect label="Periodo" placeholder="Selecciona un periodo"
-                                {...register("period", { required: true , value: defaultValue ? defaultValue.period : ''})} >
-
-                                {
-                                    periods.map((item: any, index: number) => (
-                                        <IonSelectOption key={index} value={item.value}>{item.label}</IonSelectOption>
-                                    ))
-                                }
-                            </IonSelect>
+                            <Controller
+                                name="date"
+                                control={control}
+                                defaultValue={defaultValue ? defaultValue.date : 0}
+                                rules={{ required: true, min: 1, max: 31 }}
+                                render={({ field: { onChange, value, onBlur } }) => <IonInput onIonChange={onChange} value={value} onIonBlur={onBlur} type="number" />}
+                            />
                         </IonItem>
                     </IonCol>
 
@@ -195,4 +176,4 @@ const BudgetForm: React.FC<BudgetFormProps> = ({ defaultValue, callback }) => {
     );
 }
 
-export default BudgetForm;
+export default FixedExpenseForm;

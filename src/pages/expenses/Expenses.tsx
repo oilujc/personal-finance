@@ -1,5 +1,5 @@
 import React, { useContext, useRef, useState } from 'react';
-import { IonCol, IonContent, IonFab, IonFabButton, IonGrid, IonHeader, IonIcon, IonItem, IonItemOption, IonItemOptions, IonItemSliding, IonLabel, IonList, IonModal, IonNote, IonPage, IonRow, IonText, IonTitle, IonToolbar, useIonAlert, useIonToast, useIonViewWillEnter } from '@ionic/react';
+import { IonCol, IonContent, IonFab, IonFabButton, IonGrid, IonHeader, IonIcon, IonInfiniteScroll, IonInfiniteScrollContent, IonItem, IonItemOption, IonItemOptions, IonItemSliding, IonLabel, IonList, IonModal, IonNote, IonPage, IonRow, IonText, IonTitle, IonToolbar, useIonAlert, useIonToast, useIonViewWillEnter } from '@ionic/react';
 import { add } from 'ionicons/icons';
 import { useService } from '../../hooks/serviceHook';
 import { AuthContext } from '../../context/authContext';
@@ -7,6 +7,10 @@ import ExpenseEntity from '../../domain/entities/ExpenseEntity';
 import ExpenseForm from '../../components/ExpenseForm';
 import dateFormatter from '../../utils/dateFormatter';
 
+interface GetExpensesArgs {
+    limit: number;
+    offset: number;
+}
 
 const Expenses: React.FC = () => {
 
@@ -15,6 +19,8 @@ const Expenses: React.FC = () => {
 
     const [expenses, setExpenses] = useState<ExpenseEntity[]>([]);
 
+    const [limit, setLimit] = useState(20);
+    const [offset, setOffset] = useState(0);
     const [onOpenModal, setOnOpenModal] = useState(false);
 
     const modal = useRef<HTMLIonModalElement>(null);
@@ -22,19 +28,33 @@ const Expenses: React.FC = () => {
     const [present] = useIonToast();
     const [presentAlert] = useIonAlert();
 
-    const getExpenses = async () => {
+    const getExpenses = async (args: GetExpensesArgs) => {
         const data = await expenseService.find({
-            userId: {
-                constraint: 'eq',
-                value: user?.id
-            }
+            userId: user?.id,
+            limit: args.limit,
+            offset: args.offset
         });
 
-        setExpenses(data);
+        if (data.length === 0) {
+            return;
+        }
+
+        if (args.offset === 0) {
+            setExpenses(data);
+        } else {
+            setExpenses([...expenses, ...data]);
+        }
+
+
+        setLimit(args.limit + 20);
+        setOffset(args.offset + 20);
     }
 
     const onSave = async (data?: any) => {
-        await getExpenses();
+        await getExpenses({
+            limit: 20,
+            offset: 0
+        });
 
         setOnOpenModal(false);
     }
@@ -53,7 +73,7 @@ const Expenses: React.FC = () => {
 
                             await expenseService.delete(id);
 
-                            await getExpenses();
+                            await getExpenses({ limit: 20, offset: 0 });
 
                             present({
                                 message: 'Gasto eliminado correctamente',
@@ -78,7 +98,7 @@ const Expenses: React.FC = () => {
     }
 
     const getDateFormat = (item: ExpenseEntity) => {
-        
+
         if (item.date) {
             return item.date;
         }
@@ -92,7 +112,7 @@ const Expenses: React.FC = () => {
     }
 
     useIonViewWillEnter(() => {
-        getExpenses();
+        getExpenses({ limit: 20, offset: 0 });
     });
 
 
@@ -115,7 +135,7 @@ const Expenses: React.FC = () => {
                         <IonCol>
                             <IonList>
                                 {expenses.map((item, index) => (
-                                    <IonItemSliding key={index}>
+                                    <IonItemSliding key={index} >
                                         <IonItem >
                                             <IonLabel className='ion-text-wrap'>
                                                 <p style={{ fontSize: '0.8rem' }}>
@@ -132,21 +152,32 @@ const Expenses: React.FC = () => {
                                             </IonNote>
                                         </IonItem>
                                         <IonItemOptions>
-                                            <IonItemOption color="danger" expandable
-                                                onClick={() => onDelete(item.id)} >Delete</IonItemOption>
+                                            <IonItemOption color="danger"
+                                                onClick={() => onDelete(item.id)} >Eliminar</IonItemOption>
                                         </IonItemOptions>
                                     </IonItemSliding>
                                 ))}
                             </IonList>
+
+                            {
+                                <IonInfiniteScroll
+                                    onIonInfinite={(ev) => {
+                                        getExpenses({ limit, offset });
+                                        setTimeout(() => ev.target.complete(), 500);
+                                    }}
+                                >
+                                    <IonInfiniteScrollContent></IonInfiniteScrollContent>
+                                </IonInfiniteScroll>
+                            }
                         </IonCol>
                     </IonRow>
                 </IonGrid>
 
 
                 <IonFab vertical="bottom" horizontal="end" slot="fixed">
-                <IonFabButton onClick={() => setOnOpenModal(true)}>
-                    <IonIcon icon={add}></IonIcon>
-                </IonFabButton>
+                    <IonFabButton onClick={() => setOnOpenModal(true)}>
+                        <IonIcon icon={add}></IonIcon>
+                    </IonFabButton>
                 </IonFab>
 
                 <IonModal ref={modal}
@@ -156,9 +187,9 @@ const Expenses: React.FC = () => {
                     breakpoints={[0, 0.70, 1]}
                     handleBehavior="cycle">
 
-                       <ExpenseForm 
-                            callback={onSave}
-                        />
+                    <ExpenseForm
+                        callback={onSave}
+                    />
                 </IonModal>
 
 

@@ -3,11 +3,10 @@ import React, { useContext } from 'react';
 import { IonTabs, IonRouterOutlet, IonTabBar, IonTabButton, IonIcon } from '@ionic/react';
 import { Route, Redirect } from 'react-router-dom';
 
-import { home, person, trendingUpOutline, reloadCircleOutline, podiumOutline, walletOutline, trendingDownOutline } from 'ionicons/icons';
+import { home, trendingUpOutline, podiumOutline, walletOutline, trendingDownOutline } from 'ionicons/icons';
 
 import Home from '../pages/home/Home';
 import Budget from '../pages/budget/Budget';
-import UserProfile from '../pages/user_profile/UserProfile';
 import { AuthContext } from '../context/authContext';
 import Accounts from '../pages/accounts/Accounts';
 import Incomes from '../pages/incomes/Incomes';
