@@ -1,9 +1,9 @@
-.shortcuts {
+.shortcuts .shortcuts__row {
     display: flex;
     justify-content: space-between;
 }
 
-.shortcuts .shortcuts__item {
+.shortcuts .shortcuts__row .shortcuts__item {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -12,11 +12,15 @@
     margin: 0 .5rem;
 }
 
-.shortcuts .shortcuts__item .shortcuts__item__name {
+.shortcuts .shortcuts__row .shortcuts__item .shortcuts__item__name {
     font-size: 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 }
 
-.shortcuts .shortcuts__item .shortcuts__item__icon {
+.shortcuts .shortcuts__row .shortcuts__item .shortcuts__item__icon {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -25,22 +29,22 @@
     margin-bottom: .3rem;
 }
 
-.shortcuts .shortcuts__item .shortcuts__item__icon.icon__success {
+.shortcuts .shortcuts__row .shortcuts__item .shortcuts__item__icon.icon__success {
     background-color: var(--ion-color-success);
 }
 
-.shortcuts .shortcuts__item .shortcuts__item__icon.icon__danger {
+.shortcuts .shortcuts__row .shortcuts__item .shortcuts__item__icon.icon__danger {
     background-color: var(--ion-color-danger);
 }
 
-.shortcuts .shortcuts__item .shortcuts__item__icon.icon__warning {
+.shortcuts .shortcuts__row .shortcuts__item .shortcuts__item__icon.icon__warning {
     background-color: var(--ion-color-warning);
 }
 
-.shortcuts .shortcuts__item .shortcuts__item__icon.icon__tertiary {
+.shortcuts .shortcuts__row .shortcuts__item .shortcuts__item__icon.icon__tertiary {
     background-color: var(--ion-color-tertiary);
 }
 
-.shortcuts .shortcuts__item .shortcuts__item__icon.icon__medium {
+.shortcuts .shortcuts__row .shortcuts__item .shortcuts__item__icon.icon__medium {
     background-color: var(--ion-color-medium);
 }

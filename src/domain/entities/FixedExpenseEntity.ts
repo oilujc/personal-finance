@@ -1,18 +1,24 @@
-export default class ExpenseEntity {
+import ExpenseEntity from "./ExpenseEntity";
+
+export default class FixedExpenseEntity {
+
+    // public $id;
+    // public $userId;
+
+    // public $name;
+    // public $amount;
+    // public $date;
+
+    // public $createdAt;
+    // public $updatedAt;
 
     id: string;
     userId: string;
-    accountId: string;
-    budgetId: string; // BudgetEntity.id
-    loanId?: string; 
-    fixedExpenseId?: string; 
-
     name: string;
-    note: string;
-
     amount: number;
+    date: number;
 
-    date?: string;
+    expenses?: ExpenseEntity[];
 
     createdAt?: Date;
     updatedAt?: Date;
@@ -20,43 +26,33 @@ export default class ExpenseEntity {
     constructor(
         id: string,
         userId: string,
-        accountId: string,
-        budgetId: string,
         name: string,
-        note: string,
         amount: number,
-        date?: string,
+        date: number,
         createdAt?: Date,
         updatedAt?: Date
     ) {
         this.id = id;
         this.userId = userId;
-        this.accountId = accountId;
-        this.budgetId = budgetId;
         this.name = name;
-        this.note = note;
         this.amount = amount;
         this.date = date;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
     }
     
-    static fromObject(object: any): ExpenseEntity {
-        const entity = new ExpenseEntity(
+    static fromObject(object: any): FixedExpenseEntity {
+        const entity = new FixedExpenseEntity(
             object.id ? object.id : "",
             object.userId ? object.userId : "",
-            object.accountId ? object.accountId : "",
-            object.budgetId ? object.budgetId : "",
             object.name ? object.name : "",
-            object.note ? object.note : "",
             object.amount ? object.amount : 0,
-            object.date ? object.date : null,
+            object.date ? object.date : "",
             object.createdAt ? new Date(object.createdAt) : new Date(),
             object.updatedAt ? new Date(object.updatedAt) : new Date(),
         );
 
-        entity.loanId = object.loanId ? object.loanId : "";
-        entity.fixedExpenseId = object.fixedExpenseId ? object.fixedExpenseId : "";
+        entity.expenses = object.expenses ? object.expenses.map((expense: any) => ExpenseEntity.fromObject(expense)) : [];
 
         return entity;
     }

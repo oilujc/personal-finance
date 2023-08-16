@@ -11,9 +11,10 @@ import BudgetEntity from "../domain/entities/BudgetEntity";
 
 interface ExpenseFormProps {
     callback?: (data?: any) => Promise<void>;
+    defaultValue?: ExpenseEntity | null;
 }
 
-const ExpenseForm: React.FC<ExpenseFormProps> = ({ callback }) => {
+const ExpenseForm: React.FC<ExpenseFormProps> = ({ callback, defaultValue }) => {
 
     const {
         control,
@@ -94,7 +95,7 @@ const ExpenseForm: React.FC<ExpenseFormProps> = ({ callback }) => {
             return;
         }
 
-        
+
         if (data.date) {
             console.log(data.date);
 
@@ -112,7 +113,11 @@ const ExpenseForm: React.FC<ExpenseFormProps> = ({ callback }) => {
             data.note,
             amount,
             dateFormatted
-        )
+        );
+
+        if (defaultValue) {
+            expense.fixedExpenseId = defaultValue.fixedExpenseId;
+        }
 
         newExpense(expense);
 
@@ -142,7 +147,7 @@ const ExpenseForm: React.FC<ExpenseFormProps> = ({ callback }) => {
                             <Controller
                                 name="name"
                                 control={control}
-                                defaultValue={''}
+                                defaultValue={defaultValue ? defaultValue.name : ''}
                                 rules={{ required: true }}
                                 render={({ field: { onChange, value, onBlur } }) => <IonInput onIonChange={onChange} value={value} onIonBlur={onBlur} type="text" />}
                             />
@@ -190,9 +195,9 @@ const ExpenseForm: React.FC<ExpenseFormProps> = ({ callback }) => {
                             <Controller
                                 name="amount"
                                 control={control}
-                                defaultValue={0}
-                                rules={{ required: true, min: 1 }}
-                                render={({ field: { onChange, value, onBlur } }) => <IonInput onIonChange={onChange} value={value} onIonBlur={onBlur} type="number" />}
+                                defaultValue={defaultValue ? defaultValue.amount : ''}
+                                render={({ field: { onChange, value, onBlur } }) => <IonInput
+                                    onIonChange={onChange} value={value} onIonBlur={onBlur} pattern="^[0-9]+([.][0-9]{1,2})?$" inputMode="decimal" type="text" />}
                             />
                         </IonItem>
                     </IonCol>

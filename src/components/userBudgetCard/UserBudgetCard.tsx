@@ -26,8 +26,12 @@ const UserBudgetCard: React.FC<UserBudgetCardProps> = ({ userBudget, title }) =>
     }
 
     const onSave = async (value: any) => {
-
         setIsOpenModal(false);
+    }
+
+    const getMonth = (month: number): string => {
+
+        return UserTrackEntity.MONTHS[month];
     }
 
     const getCurrentAmountColor = (): string => {
@@ -62,7 +66,7 @@ const UserBudgetCard: React.FC<UserBudgetCardProps> = ({ userBudget, title }) =>
                     </IonButton>
                     <div className="ion-activatable ripple-parent rectangle" onClick={onEdit}>
                         <IonCardSubtitle color="light">
-                            {title ? title : 'Presupuesto mensual '}
+                            {title ? title : `Presupuesto de  ${getMonth(userBudget.currentMonth)}`}
                         </IonCardSubtitle>
                         <IonCardTitle color={getCurrentAmountColor()}>
                             {

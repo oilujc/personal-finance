@@ -49,6 +49,8 @@ import UserProfile from './pages/user_profile/UserProfile';
 import { LoadingContext } from './context/loadingContext';
 import Loans from './pages/loans/Loans';
 import LoanDetail from './pages/loan_detail/LoanDetail';
+import FixedExpenses from './pages/fixed_expenses/FixedExpenses';
+import FixedExpenseDetail from './pages/fixed_expense_detail/FixedExpenseDetail';
 
 setupIonicReact();
 
@@ -117,6 +119,18 @@ const App: React.FC = () => {
             <Route exact path="/loans/:id"
               render={() => {
                 return user ? <LoanDetail /> : <Redirect to="/login" />
+              }}
+            />
+
+            <Route exact path="/fixed-expenses"
+              render={() => {
+                return user ? <FixedExpenses /> : <Redirect to="/login" />
+              }}
+            />
+
+            <Route exact path="/fixed-expenses/:id"
+              render={() => {
+                return user ? <FixedExpenseDetail /> : <Redirect to="/login" />
               }}
             />
 
